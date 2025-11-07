@@ -1,5 +1,11 @@
-import { Geist, Geist_Mono, Bricolage_Grotesque, Iceland } from "next/font/google";
+import {
+	Geist,
+	Geist_Mono,
+	Bricolage_Grotesque,
+	Iceland,
+} from "next/font/google";
 import "./globals.css";
+import Header from "@/components/UI/Header";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -36,6 +42,7 @@ export default function RootLayout({ children }) {
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} ${bricolageGrotesque.className} ${iceland.variable} antialiased`}
 			>
+				{/* <Header /> */}
 				{children}
 			</body>
 		</html>

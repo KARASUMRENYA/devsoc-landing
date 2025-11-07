@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform } from "motion/react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
@@ -34,18 +34,40 @@ export default function Events() {
 		[0.98, 1, 0.98],
 	);
 
+	const headerVariants = {
+		hidden: { opacity: 0, y: 30, filter: "blur(10px)" },
+		visible: {
+			opacity: 1,
+			y: 0,
+			filter: "blur(0px)",
+			transition: {
+				duration: 0.4,
+				ease: "easeOut",
+			},
+		},
+	};
+
+	const buttonVariants = {
+		hidden: { opacity: 0, y: 30, filter: "blur(10px)" },
+		visible: {
+			opacity: 1,
+			y: 0,
+			filter: "blur(0px)",
+			transition: { duration: 0.3, ease: "easeOut" },
+		},
+	};
+
 	return (
 		<section
 			ref={ref}
-			className="mx-auto flex w-full flex-col items-start py-16 md:py-24"
+			className="mx-auto flex w-full flex-col items-start py-16 md:py-20"
 		>
 			<div className="w-full px-4">
 				<motion.h2
-					initial={{ opacity: 0, x: -20 }}
-					whileInView={{ opacity: 1, x: 0 }}
-					transition={{ duration: 0.6 }}
-					viewport={{ once: true }}
-					className="font-iceland mx-auto mb-12 w-full max-w-6xl text-3xl font-bold md:text-6xl"
+					variants={headerVariants}
+					initial="hidden"
+					whileInView="visible"
+					className="font-iceland mx-auto mb-12 w-full max-w-6xl text-6xl font-bold"
 				>
 					Events
 				</motion.h2>
@@ -63,10 +85,9 @@ export default function Events() {
 				)}
 
 				<motion.div
-					initial={{ opacity: 0 }}
-					whileInView={{ opacity: 1 }}
-					transition={{ duration: 0.5, delay: 0.3 }}
-					viewport={{ once: true }}
+					variants={buttonVariants}
+					initial="hidden"
+					whileInView="visible"
 					className="flex justify-center"
 				>
 					<Link href="/events">
@@ -137,7 +158,7 @@ function FannedLayout({
 								<motion.div
 									whileHover={{ y: -10, scale: hoverScale }}
 									transition={{ type: "tween", duration: 0.25 }}
-									className={`group relative cursor-pointer bg-neutral-600 transition-all duration-300 ease-out rounded-lg`}
+									className={`group relative cursor-pointer rounded-lg bg-neutral-600 transition-all duration-300 ease-out`}
 									style={{
 										filter: isHovered
 											? "drop-shadow(12px 12px 12px rgba(0,0,0,0.5))"
@@ -171,12 +192,30 @@ function MobileDraggableStack({ eventsData }) {
 	return (
 		<div className="relative mb-12 flex flex-col items-center">
 			{eventsData.map((event, index) => {
-				const overlap = -100;
-				const rotate = -3 + index * 2;
+				const rotate = -10 + index * 5;
+
+				const cardVariants = {
+					hidden: { opacity: 0, y: 30, filter: "blur(10px)", rotate },
+					visible: (i) => ({
+						opacity: 1,
+						y: 0,
+						filter: "blur(0px)",
+						rotate,
+						transition: {
+							delay: i * 0.1,
+							duration: 0.4,
+							ease: "easeOut",
+						},
+					}),
+				};
 
 				return (
 					<motion.div
 						key={event.id}
+						custom={index}
+						variants={cardVariants}
+						initial="hidden"
+						whileInView="visible"
 						drag
 						dragConstraints={{ top: 0, bottom: 0, left: 0, right: 0 }}
 						dragElastic={0.35}
@@ -184,7 +223,6 @@ function MobileDraggableStack({ eventsData }) {
 							index === 0 ? "" : `-mt-[100px]`
 						}`}
 						style={{
-							rotate,
 							zIndex: eventsData.length - index,
 							filter: "drop-shadow(0 8px 10px rgba(0,0,0,0.4))",
 						}}
@@ -201,19 +239,23 @@ function MobileDraggableStack({ eventsData }) {
 						<Link href={`/events/${event.id}`} scroll>
 							<motion.div className="group relative overflow-hidden rounded-xl bg-white shadow-xl">
 								<img
-									src={event.image || "/placeholder.svg"}
+									src={event.image}
 									alt={event.title}
-									className="aspect-3/4 w-full rounded-xl object-cover"
+									className="aspect-3/4 w-full rounded-xl bg-gray-50 object-cover"
 								/>
 
-								<div className="absolute inset-0 flex items-end bg-linear-to-b from-transparent to-black/70 p-4">
+								<motion.div
+									initial={{ opacity: 0 }}
+									whileTap={{ opacity: 1 }}
+									className="absolute inset-0 flex items-end bg-linear-to-b from-transparent to-black/70 p-4"
+								>
 									<div>
 										<h3 className="text-lg font-bold text-white">
 											{event.title}
 										</h3>
 										<p className="text-sm text-gray-200">{event.date}</p>
 									</div>
-								</div>
+								</motion.div>
 							</motion.div>
 						</Link>
 					</motion.div>

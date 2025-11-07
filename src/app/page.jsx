@@ -2,6 +2,7 @@ import Events from "@/components/Home/Events";
 import Hero from "@/components/Home/Hero";
 import Newsletter from "@/components/Home/Newsletter";
 import Footer from "@/components/UI/Footer";
+import Gallery from "@/components/Home/Gallery";
 
 export default function Home() {
 	return (
@@ -9,6 +10,7 @@ export default function Home() {
 			<Hero />
 			<Newsletter />
 			<Events />
+			<Gallery />
 			<Footer />
 		</div>
 	);

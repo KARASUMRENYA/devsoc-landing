@@ -1,16 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "motion/react";
 import Link from "next/link";
 import { Twitter, Instagram, Linkedin } from "lucide-react";
 
 const Footer = () => {
 	const socialLinks = [
-		{
-			name: "Twitter",
-			url: "https://www.twitter.com",
-			icon: <Twitter size={20} />,
-		},
 		{
 			name: "Instagram",
 			url: "https://www.instagram.com",
@@ -20,6 +16,11 @@ const Footer = () => {
 			name: "LinkedIn",
 			url: "https://www.linkedin.com",
 			icon: <Linkedin size={20} />,
+		},
+		{
+			name: "Twitter",
+			url: "https://www.twitter.com",
+			icon: <Twitter size={20} />,
 		},
 	];
 
@@ -34,8 +35,72 @@ const Footer = () => {
 		setShowBlobs(relativeY > threshold);
 	};
 
+	const containerVariants = {
+		hidden: { opacity: 0 },
+		visible: {
+			opacity: 1,
+			transition: {
+				staggerChildren: 0.1,
+				delayChildren: 0.2,
+			},
+		},
+	};
+
+	const itemVariants = {
+		hidden: { opacity: 0, y: 20 },
+		visible: {
+			opacity: 1,
+			y: 0,
+			transition: {
+				duration: 0.6,
+				ease: [0.25, 0.46, 0.45, 0.94],
+			},
+		},
+	};
+
+	const socialIconVariants = {
+		hidden: { opacity: 0, scale: 0 },
+		visible: (i) => ({
+			opacity: 1,
+			scale: 1,
+			transition: {
+				delay: i * 0.1,
+				duration: 0.2,
+				ease: "backOut",
+			},
+		}),
+	};
+
+	const devsocVariants = {
+		hidden: {
+			opacity: 0,
+			y: 50,
+			filter: "blur(10px)",
+		},
+		visible: {
+			opacity: 1,
+			y: 0,
+			filter: "blur(0px)",
+			transition: {
+				duration: 0.5,
+				ease: [0.25, 0.46, 0.45, 0.94],
+			},
+		},
+	};
+
+	const copyrightVariants = {
+		hidden: { opacity: 0 },
+		visible: {
+			opacity: 1,
+			transition: {
+				delay: 0.6,
+				duration: 0.6,
+			},
+		},
+	};
+
 	return (
-		<div
+		<motion.div
 			className="relative w-full overflow-hidden border-t bg-black p-4 pt-8 text-white sm:pt-10"
 			onMouseMove={handleMouseMove}
 			onMouseLeave={() => setShowBlobs(false)}
@@ -70,32 +135,66 @@ const Footer = () => {
 			)}
 
 			<div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-between sm:flex-row">
-				<div className="text-md mb-4 text-center sm:text-base">
+				<motion.div
+					className="text-md mb-4 text-center sm:text-base"
+					variants={itemVariants}
+					initial="hidden"
+					whileInView="visible"
+					viewport={{ once: true }}
+				>
 					Made with ❤️ by Devsoc Team
-				</div>
-				<div className="mb-4 flex items-center justify-center gap-2 sm:justify-start sm:gap-3">
+				</motion.div>
+
+				<motion.div
+					className="mb-4 flex items-center justify-center gap-2 sm:justify-start sm:gap-3"
+					variants={itemVariants}
+					initial="hidden"
+					whileInView="visible"
+					viewport={{ once: true }}
+				>
 					<h1>Follow us on</h1>
-					{socialLinks.map((link) => (
-						<a
+					{socialLinks.map((link, i) => (
+						<Link
 							key={link.name}
 							href={link.url}
 							target="_blank"
 							rel="noopener noreferrer"
-							className="hover:border-accent hover:text-accent rounded-full border border-transparent bg-neutral-800/80 p-3 text-xl transition-all duration-300 hover:-translate-y-1"
 						>
-							{link.icon}
-						</a>
+							<motion.div
+								className="hover:border-accent hover:text-accent rounded-full border border-transparent bg-neutral-800/80 p-3 text-xl transition-all duration-300 hover:-translate-y-1"
+								custom={i}
+								initial="hidden"
+								whileInView="visible"
+								variants={socialIconVariants}
+								whileTap={{ scale: 0.9 }}
+								viewport={{ once: true }}
+							>
+								{link.icon}
+							</motion.div>
+						</Link>
 					))}
-				</div>
+				</motion.div>
 			</div>
 
-			<div className="sm:space-x-auto mt-10 bg-linear-to-b from-white/50 via-[#1c1c1c] to-[#000000b9] bg-clip-text text-center text-[5rem] leading-none font-bold text-transparent font-stretch-50% select-none md:px-4 sm:text-[10rem] md:text-[12rem] lg:text-[14rem] xl:text-[18rem]">
+			<motion.div
+				className="sm:space-x-auto mt-10 bg-linear-to-b from-white/50 via-[#1c1c1c] to-[#000000b9] bg-clip-text text-center text-[5rem] leading-none font-bold text-transparent font-stretch-50% select-none sm:text-[10rem] md:px-4 md:text-[12rem] lg:text-[14rem] xl:text-[18rem]"
+				variants={devsocVariants}
+				initial="hidden"
+				whileInView="visible"
+			>
 				DEVSOC
-			</div>
-			<h2 className="text-center text-sm text-gray-400 sm:text-[15px]">
+			</motion.div>
+
+			<motion.h2
+				className="text-center text-sm text-gray-400 sm:text-[15px]"
+				variants={copyrightVariants}
+				viewport={{ once: true }}
+				initial="hidden"
+				whileInView="visible"
+			>
 				© {new Date().getFullYear()} DevSoc. All rights reserved.
-			</h2>
-		</div>
+			</motion.h2>
+		</motion.div>
 	);
 };
 
