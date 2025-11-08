@@ -17,26 +17,34 @@ const headerVariants = {
 export default function Page() {
 	return (
 		<div className="mx-auto flex max-w-[1800px] flex-col items-center justify-center bg-black text-white">
-			<div className="flex w-full flex-col items-center justify-center gap-8 bg-black p-4 pt-24 pb-16 sm:pb-24">
-				
-				<div className="flex w-full max-w-7xl flex-col items-start gap-8">
+			<div className="flex w-full max-w-6xl flex-col items-center justify-center gap-8 bg-black p-4 pt-24 pb-16 sm:pb-24">
+
+				<div>
 					<motion.h1
-						className="font-iceland w-full text-6xl"
+						className="font-iceland w-full text-6xl text-center"
 						variants={headerVariants}
 						initial="hidden"
 						animate="visible"
 					>
 						Events
 					</motion.h1>
-
-					<div className="grid w-full grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-						{eventsData.map((event) => (
-							<EventCard key={event.id} event={event} />
-						))}
-					</div>
+					<motion.p
+						className="w-full text-xl text-center"
+						variants={headerVariants}
+						initial="hidden"
+						animate="visible"
+					>
+						Where Technology Meets Creativity and Collaboration
+					</motion.p>
 				</div>
 
+				<div className="grid w-full grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+					{eventsData.map((event) => (
+						<EventCard key={event.id} event={event} />
+					))}
+				</div>
 			</div>
+
 		</div>
 	);
 }

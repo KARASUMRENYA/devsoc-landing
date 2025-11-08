@@ -60,7 +60,7 @@ export default function Events() {
 	return (
 		<section
 			ref={ref}
-			className="mx-auto flex w-full flex-col items-start py-16 md:py-20"
+			className="mx-auto flex w-full flex-col items-start py-16 md:py-20 bg-accent/20"
 		>
 			<div className="w-full px-4">
 				<motion.h2

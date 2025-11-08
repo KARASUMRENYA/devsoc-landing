@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "motion/react";
 import Link from "next/link";
 import { Twitter, Instagram, Linkedin } from "lucide-react";
@@ -26,6 +26,16 @@ const Footer = () => {
 
 	const [mousePos, setMousePos] = useState({ x: -9999, y: -9999 });
 	const [showBlobs, setShowBlobs] = useState(false);
+	const [isMobile, setIsMobile] = useState(false);
+
+	useEffect(() => {
+		const checkMobile = () => {
+			setIsMobile(window.innerWidth < 640);
+		};
+		checkMobile();
+		window.addEventListener("resize", checkMobile);
+		return () => window.removeEventListener("resize", checkMobile);
+	}, []);
 
 	const handleMouseMove = (e) => {
 		const rect = e.currentTarget.getBoundingClientRect();
@@ -110,24 +120,24 @@ const Footer = () => {
 					<div
 						className="bg-accent pointer-events-none absolute h-32 w-32 rounded-full opacity-30 blur-3xl transition-transform duration-300 sm:h-40 sm:w-40"
 						style={{
-							top: mousePos.y - (window.innerWidth < 640 ? 64 : 80),
-							left: mousePos.x - (window.innerWidth < 640 ? 64 : 80),
+							top: mousePos.y - (isMobile ? 64 : 80),
+							left: mousePos.x - (isMobile ? 64 : 80),
 							zIndex: 20,
 						}}
 					></div>
 					<div
 						className="bg-accent pointer-events-none absolute h-24 w-24 rounded-full opacity-20 blur-2xl transition-transform duration-300 sm:h-32 sm:w-32"
 						style={{
-							top: mousePos.y - (window.innerWidth < 640 ? 48 : 60),
-							left: mousePos.x - (window.innerWidth < 640 ? 48 : 60),
+							top: mousePos.y - (isMobile ? 48 : 60),
+							left: mousePos.x - (isMobile ? 48 : 60),
 							zIndex: 20,
 						}}
 					></div>
 					<div
 						className="bg-accent pointer-events-none absolute h-20 w-20 rounded-full opacity-30 blur-2xl transition-transform duration-300 sm:h-24 sm:w-24"
 						style={{
-							top: mousePos.y - (window.innerWidth < 640 ? 40 : 40),
-							left: mousePos.x - (window.innerWidth < 640 ? 40 : 40),
+							top: mousePos.y - (isMobile ? 40 : 40),
+							left: mousePos.x - (isMobile ? 40 : 40),
 							zIndex: 20,
 						}}
 					></div>

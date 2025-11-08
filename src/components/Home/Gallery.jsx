@@ -35,7 +35,7 @@ export default function Gallery() {
 	};
 
 	return (
-		<section ref={ref} className="w-full pt-8 pb-24">
+		<section ref={ref} className="w-full pt-8 pb-24 bg-accent/20">
 			<div className="mx-auto max-w-6xl px-4">
 				<motion.h2
 					variants={headerVariants}

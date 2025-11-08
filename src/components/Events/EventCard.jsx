@@ -39,7 +39,7 @@ export default function EventCard({ event }) {
 
 					<div
 						className="absolute inset-0 flex flex-col justify-end 
-                                   bg-gradient-to-t from-black/60 to-transparent to-60% 
+                                   bg-linear-to-t from-black/60 to-transparent to-60% 
                                    p-4 transition-all duration-300 
                                    group-hover:from-black/80"
 					>
