@@ -37,7 +37,7 @@ export default function Header() {
 
 	return (
 		<div
-			className={`bg-accent/30 ease fixed inset-0 z-50 mx-auto flex h-fit w-full items-center justify-between px-4 py-2 backdrop-blur-lg transition-all duration-300 ${scrolled ? "rounded-b-3xl" : "mt-4 max-w-6xl rounded-full"} `}
+			className={`bg-accent/30 ease fixed top-0 left-0 right-0 z-50 mx-auto flex h-fit w-full items-center justify-between px-4 py-2 backdrop-blur-lg transition-all duration-300 ${scrolled ? "rounded-b-3xl" : "mt-4 max-w-6xl rounded-full"} `}
 		>
 			<div className="flex items-center gap-2">
 				<Image
