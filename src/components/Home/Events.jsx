@@ -10,7 +10,7 @@ import { Carousel, Card } from "@/components/UI/mobileCarousel";
 function useMediaQuery(query) {
 	const [matches, setMatches] = useState(null);
 	const [mounted, setMounted] = useState(false);
-	
+
 	useEffect(() => {
 		setMounted(true);
 		const media = window.matchMedia(query);
@@ -19,7 +19,7 @@ function useMediaQuery(query) {
 		media.addEventListener("change", listener);
 		return () => media.removeEventListener("change", listener);
 	}, [query]);
-	
+
 	return { matches, mounted };
 }
 
@@ -61,12 +61,12 @@ export default function Events() {
 			transition: { duration: 0.3, ease: "easeOut" },
 		},
 	};
-	
+
 	if (!mounted) {
 		return (
 			<section
 				ref={ref}
-				className="mx-auto flex w-full flex-col items-start py-16 md:py-20 bg-accent/20"
+				className="bg-accent/20 mx-auto flex w-full flex-col items-start py-16 md:py-20"
 			>
 				<div className="w-full px-4">
 					<motion.h2
@@ -86,7 +86,7 @@ export default function Events() {
 	return (
 		<section
 			ref={ref}
-			className="mx-auto flex w-full flex-col items-start py-16 md:py-20 bg-accent/20"
+			className="bg-accent/20 mx-auto flex w-full flex-col items-start py-16 md:py-20"
 		>
 			<div className="w-full px-4">
 				<motion.h2
@@ -218,7 +218,7 @@ function FannedLayout({
 
 function AppleCardsCarouselSection() {
 	const limitedEvents = eventsData.slice(0, 3);
-	
+
 	const cards = limitedEvents.map((event, index) => {
 		const cardData = {
 			category: event.date,
@@ -235,11 +235,11 @@ function AppleCardsCarouselSection() {
 				initial={{ opacity: 0, y: 20 }}
 				animate={{ opacity: 1, y: 0 }}
 				transition={{ duration: 0.5, delay: 0.6, ease: "easeOut" }}
-				className="relative h-85 w-60 md:h-[40rem] md:w-96 overflow-hidden bg-neutral-900 rounded-3xl flex items-center justify-center cursor-pointer"
+				className="relative flex h-85 w-60 cursor-pointer items-center justify-center overflow-hidden rounded-3xl bg-neutral-900 md:h-[40rem] md:w-96"
 				whileHover={{ scale: 1.05 }}
 			>
 				<div className="flex flex-col items-center justify-center gap-4 text-white">
-					<ArrowRight className="w-12 h-12" />
+					<ArrowRight className="h-12 w-12" />
 					<p className="text-2xl font-bold">View More</p>
 					<p className="text-sm text-gray-400">See all events</p>
 				</div>

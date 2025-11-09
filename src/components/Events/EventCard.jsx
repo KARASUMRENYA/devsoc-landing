@@ -37,12 +37,7 @@ export default function EventCard({ event }) {
 						className="object-cover transition-transform duration-300 group-hover:scale-105"
 					/>
 
-					<div
-						className="absolute inset-0 flex flex-col justify-end 
-                                   bg-linear-to-t from-black/60 to-transparent to-60% 
-                                   p-4 transition-all duration-300 
-                                   group-hover:from-black/80"
-					>
+					<div className="absolute inset-0 flex flex-col justify-end bg-linear-to-t from-black/60 to-transparent to-60% p-4 transition-all duration-300 group-hover:from-black/80">
 						<h3 className="text-lg font-semibold text-white sm:text-xl">
 							{event.title}
 						</h3>

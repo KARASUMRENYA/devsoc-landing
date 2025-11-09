@@ -17,7 +17,7 @@ export default function EventDetailPage({ params }) {
 
 	return (
 		<div className="relative flex w-full flex-col items-center justify-center bg-black p-4 pt-40 pb-16 text-white sm:p-6 sm:pt-48 sm:pb-24">
-			<div className="w-full max-w-6xl relative">
+			<div className="relative w-full max-w-6xl">
 				{/*  Floating Back Button placed outside main grid */}
 				<motion.div
 					className="absolute -top-10 left-0 sm:-top-14"
@@ -35,7 +35,7 @@ export default function EventDetailPage({ params }) {
 				</motion.div>
 
 				{/* Main Content Grid */}
-				<div className="grid w-full grid-cols-1 md:grid-cols-5 md:gap-12 mt-10 sm:mt-16">
+				<div className="mt-10 grid w-full grid-cols-1 sm:mt-16 md:grid-cols-5 md:gap-12">
 					{/* LEFT SIDE (Content) */}
 					<motion.div
 						className="md:col-span-3"
@@ -56,7 +56,7 @@ export default function EventDetailPage({ params }) {
 
 					{/* RIGHT SIDE (Image) */}
 					<motion.div
-						className="relative w-full aspect-3/4 overflow-hidden rounded-lg bg-neutral-800 md:col-span-2"
+						className="relative aspect-3/4 w-full overflow-hidden rounded-lg bg-neutral-800 md:col-span-2"
 						initial={{ opacity: 0, y: 30 }}
 						animate={{ opacity: 1, y: 0 }}
 						transition={{ duration: 0.5, delay: 0.2 }}

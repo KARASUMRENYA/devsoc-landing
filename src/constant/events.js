@@ -48,7 +48,7 @@ export const eventsData = [
 		date: "Nov 22, 2025",
 		description:
 			"A hands-on workshop focused on advanced data structures and algorithms. Our senior members covered topics like dynamic programming, graph theory, and segment trees to help students prepare for upcoming contests.",
-		gallery: [], 
+		gallery: [],
 	},
 	{
 		id: "5",

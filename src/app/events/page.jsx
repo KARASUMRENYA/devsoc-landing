@@ -18,10 +18,9 @@ export default function Page() {
 	return (
 		<div className="mx-auto flex max-w-[1800px] flex-col items-center justify-center bg-black text-white">
 			<div className="flex w-full max-w-6xl flex-col items-center justify-center gap-8 bg-black p-4 pt-24 pb-16 sm:pb-24">
-
 				<div>
 					<motion.h1
-						className="font-iceland w-full text-6xl text-center"
+						className="font-iceland w-full text-center text-6xl"
 						variants={headerVariants}
 						initial="hidden"
 						animate="visible"
@@ -29,7 +28,7 @@ export default function Page() {
 						Events
 					</motion.h1>
 					<motion.p
-						className="w-full text-xl text-center"
+						className="w-full text-center text-xl"
 						variants={headerVariants}
 						initial="hidden"
 						animate="visible"
@@ -44,7 +43,6 @@ export default function Page() {
 					))}
 				</div>
 			</div>
-
 		</div>
 	);
 }
