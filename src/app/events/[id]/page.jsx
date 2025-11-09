@@ -16,7 +16,7 @@ export default function EventDetailPage({ params }) {
 	}
 
 	return (
-		<div className="relative flex w-full flex-col items-center justify-center bg-black p-4 pt-40 pb-16 text-white sm:p-6 sm:pt-48 sm:pb-24">
+		<div className="relative flex w-full flex-col items-center justify-center bg-black p-4 pt-20 pb-16 text-white sm:p-6 sm:pb-24 md:pt-40">
 			<div className="relative w-full max-w-6xl">
 				{/*  Floating Back Button placed outside main grid */}
 				<motion.div
@@ -35,10 +35,10 @@ export default function EventDetailPage({ params }) {
 				</motion.div>
 
 				{/* Main Content Grid */}
-				<div className="mt-10 grid w-full grid-cols-1 sm:mt-16 md:grid-cols-5 md:gap-12">
+				<div className="mt-10 grid w-full grid-cols-1 gap-8 md:grid-cols-6 md:gap-12">
 					{/* LEFT SIDE (Content) */}
 					<motion.div
-						className="md:col-span-3"
+						className="md:col-span-4"
 						initial={{ opacity: 0, y: 30 }}
 						animate={{ opacity: 1, y: 0 }}
 						transition={{ duration: 0.5, delay: 0.1 }}
@@ -56,7 +56,7 @@ export default function EventDetailPage({ params }) {
 
 					{/* RIGHT SIDE (Image) */}
 					<motion.div
-						className="relative aspect-3/4 w-full overflow-hidden rounded-lg bg-neutral-800 md:col-span-2"
+						className="relative w-full overflow-hidden rounded-3xl bg-neutral-800 md:col-span-2"
 						initial={{ opacity: 0, y: 30 }}
 						animate={{ opacity: 1, y: 0 }}
 						transition={{ duration: 0.5, delay: 0.2 }}
@@ -64,8 +64,9 @@ export default function EventDetailPage({ params }) {
 						<Image
 							src={event.image}
 							alt={event.title}
-							fill
-							className="object-cover"
+							width={600}
+							height={800}
+							className="h-auto w-full object-contain"
 							priority
 							sizes="(max-width: 768px) 100vw, 40vw"
 						/>
@@ -83,18 +84,19 @@ export default function EventDetailPage({ params }) {
 						<h2 className="font-iceland mb-6 text-5xl font-bold">
 							Event Snaps
 						</h2>
-						<div className="grid grid-cols-2 gap-4 md:grid-cols-3">
+						<div className="columns-2 gap-4 lg:columns-4">
 							{event.gallery.map((photoUrl, index) => (
 								<div
 									key={index}
-									className="group relative aspect-square w-full overflow-hidden rounded-lg bg-neutral-800"
+									className="group relative mb-4 w-full break-inside-avoid overflow-hidden rounded-3xl bg-neutral-800"
 								>
 									<Image
 										src={photoUrl}
 										alt={`Event snapshot ${index + 1}`}
-										fill
-										className="object-cover transition-transform duration-300 group-hover:scale-105"
-										sizes="(max-width: 768px) 50vw, 33vw"
+										width={400}
+										height={600}
+										className="h-auto w-full object-cover transition-transform duration-300 group-hover:scale-105"
+										sizes="(max-width: 768px) 50vw, 25vw"
 									/>
 								</div>
 							))}

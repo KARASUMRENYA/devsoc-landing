@@ -88,12 +88,12 @@ export default function Events() {
 			ref={ref}
 			className="bg-accent/20 mx-auto flex w-full flex-col items-start py-16 md:py-20"
 		>
-			<div className="w-full px-4">
+			<div className="w-full">
 				<motion.h2
 					variants={headerVariants}
 					initial="hidden"
 					whileInView="visible"
-					className="font-iceland mx-auto mb-12 w-full max-w-6xl text-6xl font-bold"
+					className="font-iceland px-4 mx-auto mb-12 w-full max-w-6xl text-6xl font-bold"
 				>
 					Events
 				</motion.h2>
@@ -118,7 +118,7 @@ export default function Events() {
 						className="flex justify-center"
 					>
 						<Link href="/events">
-							<button className="mx-auto flex items-center justify-center gap-1 rounded-lg bg-neutral-950 px-4 py-2 text-xl text-white transition-all duration-300 hover:cursor-pointer hover:gap-4 hover:bg-neutral-800">
+							<button className="mx-auto flex items-center justify-center gap-1 rounded-3xl bg-neutral-950 px-6 py-2.5 text-xl text-white transition-all duration-300 hover:cursor-pointer hover:gap-4 hover:bg-neutral-800">
 								View More
 								<ArrowRight className="" />{" "}
 							</button>
@@ -186,7 +186,7 @@ function FannedLayout({
 								<motion.div
 									whileHover={{ y: -10, scale: hoverScale }}
 									transition={{ type: "tween", duration: 0.25 }}
-									className={`group relative cursor-pointer rounded-lg bg-neutral-600 transition-all duration-300 ease-out`}
+									className={`group relative cursor-pointer rounded-3xl bg-neutral-600 transition-all duration-300 ease-out`}
 									style={{
 										filter: isHovered
 											? "drop-shadow(12px 12px 12px rgba(0,0,0,0.5))"
@@ -196,9 +196,9 @@ function FannedLayout({
 									<img
 										src={event.image || "/placeholder.svg"}
 										alt={event.title}
-										className="aspect-3/4 w-full rounded-lg object-cover transition-transform duration-300 ease-out"
+										className="aspect-3/4 w-full rounded-3xl object-cover transition-transform duration-300 ease-out"
 									/>
-									<div className="absolute inset-0 flex items-end rounded-lg bg-linear-to-b from-transparent to-black p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+									<div className="absolute inset-0 flex items-end rounded-3xl bg-linear-to-b from-transparent to-black p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
 										<div>
 											<h3 className="text-lg font-bold text-white">
 												{event.title}
@@ -235,7 +235,7 @@ function AppleCardsCarouselSection() {
 				initial={{ opacity: 0, y: 20 }}
 				animate={{ opacity: 1, y: 0 }}
 				transition={{ duration: 0.5, delay: 0.6, ease: "easeOut" }}
-				className="relative flex h-85 w-60 cursor-pointer items-center justify-center overflow-hidden rounded-3xl bg-neutral-900 md:h-160 md:w-96"
+				className="relative flex h-110 w-75 cursor-pointer items-center justify-center overflow-hidden rounded-3xl bg-neutral-900 shadow-[2px_2px_5px_rgba(0,0,0,0.2),-2px_2px_5px_rgba(0,0,0,0.2),0_4px_5px_rgba(0,0,0,0.2)] md:h-160 md:w-96"
 				whileHover={{ scale: 1.05 }}
 			>
 				<div className="flex flex-col items-center justify-center gap-4 text-white">

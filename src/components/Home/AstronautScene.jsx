@@ -68,23 +68,23 @@ function AstronautModel({ mouse, isAstronautVisible }) {
 	useFrame(() => {
 		if (headRef.current && mouse.current && typeof window !== "undefined") {
 			let targetX = 0;
-			let targetY = 0;
+			let targetZ = 0;
 
 			// Only follow cursor if astronaut is visible
 			if (isAstronautVisible) {
 				targetX = (mouse.current.x / window.innerWidth) * 2 - 1;
-				targetY = -(mouse.current.y / window.innerHeight) * 2 + 1;
+				targetZ = (mouse.current.y / window.innerHeight) * 2 - 1;
 			}
 
-			// Smoothly rotate head to follow cursor or return to initial position
 			headRef.current.rotation.y = THREE.MathUtils.lerp(
 				headRef.current.rotation.y,
 				targetX * 0.8,
 				0.1,
 			);
-			headRef.current.rotation.x = THREE.MathUtils.lerp(
-				headRef.current.rotation.x,
-				targetY * 0.5,
+			// Use Z rotation for up-down to match the model's orientation (inverted)
+			headRef.current.rotation.z = THREE.MathUtils.lerp(
+				headRef.current.rotation.z,
+				-targetZ * 0.5,
 				0.1,
 			);
 		}
@@ -117,7 +117,6 @@ export default function AstronautScene() {
 	const mouse = useRef({ x: 0, y: 0 });
 	const containerRef = useRef(null);
 	const [isAstronautVisible, setIsAstronautVisible] = useState(true);
-	const [shouldLoad, setShouldLoad] = useState(false);
 
 	useEffect(() => {
 		// Initialize mouse position after mount
@@ -135,12 +134,8 @@ export default function AstronautScene() {
 				const rect = containerRef.current.getBoundingClientRect();
 				// Check if astronaut container is visible in viewport
 				const inView = rect.bottom > 0 && rect.top < window.innerHeight;
+
 				setIsAstronautVisible(inView);
-				
-				// Start loading when container is near viewport (500px buffer)
-				if (rect.top < window.innerHeight + 500 && !shouldLoad) {
-					setShouldLoad(true);
-				}
 			}
 		};
 
@@ -156,27 +151,36 @@ export default function AstronautScene() {
 				window.removeEventListener("scroll", handleScroll);
 			};
 		}
-	}, [shouldLoad]);
+	}, []);
 
 	return (
 		<div ref={containerRef} style={{ width: "100%", height: "100%" }}>
-			<Canvas
-				camera={{ position: [0, 0.5, 5], fov: 50 }}
-				style={{ width: "100%", height: "100%" }}
-				dpr={[1, 2]}
-				performance={{ min: 0.5 }}
+			<div
+				style={{
+					width: "100%",
+					height: "100%",
+					visibility: isAstronautVisible ? "visible" : "hidden",
+					pointerEvents: isAstronautVisible ? "auto" : "none",
+				}}
 			>
-				<ambientLight intensity={0.6} />
-				<directionalLight position={[3, 5, 5]} intensity={1.5} />
-				<Environment preset="city" />
-				{shouldLoad ? (
+				<Canvas
+					camera={{ position: [0, 0.5, 5], fov: 50 }}
+					style={{ width: "100%", height: "100%" }}
+					dpr={[1, 2]}
+					performance={{ min: 0.5 }}
+					frameloop={isAstronautVisible ? "always" : "never"}
+				>
+					<ambientLight intensity={0.6} />
+					<directionalLight position={[3, 5, 5]} intensity={1.5} />
+					<Environment preset="city" />
 					<Suspense fallback={<LoadingPlaceholder />}>
-						<AstronautModel mouse={mouse} isAstronautVisible={isAstronautVisible} />
+						<AstronautModel
+							mouse={mouse}
+							isAstronautVisible={isAstronautVisible}
+						/>
 					</Suspense>
-				) : (
-					<LoadingPlaceholder />
-				)}
-			</Canvas>
+				</Canvas>
+			</div>
 		</div>
 	);
 }
