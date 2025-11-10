@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "motion/react";
+import AstronautScene from "./AstronautScene";
 
 export default function Hero() {
 	const headerVariants = {
@@ -25,21 +26,21 @@ export default function Hero() {
 		hidden: {
 			opacity: 0,
 			y: 100,
-			scale: 0.9,
+			filter: "blur(10px)",
 		},
 		visible: {
 			opacity: 1,
 			y: 0,
-			scale: 1,
+			filter: "blur(0px)",
 			transition: {
-				delay: 0.3,
-				duration: 0.3,
+				delay: 0.5,
+				duration: 0.5,
 				ease: "easeOut",
 			},
 		},
 	};
 	return (
-		<div className="to-accent/30 relative flex h-screen w-full flex-col items-center gap-8 bg-linear-to-t from-slate-300 px-4 pt-4 sm:h-[768px]">
+		<div className="to-accent/30 relative flex h-screen w-full flex-col items-center bg-linear-to-t from-slate-300 px-4 pt-4 md:h-[768px]">
 			<Image
 				src="/devsocbg.png"
 				alt="DevSoc Background"
@@ -49,12 +50,12 @@ export default function Hero() {
 			/>
 			<div className="absolute top-4 left-4 z-2 flex items-center gap-2">
 				<Image src="/DevSocLogo.png" alt="DevSoc Logo" height={50} width={50} />
-				<h2 className="text-4xl font-bold font-iceland">
+				<h2 className="font-iceland text-4xl font-bold">
 					DEV<span className="text-orange-300">SOC</span>
 				</h2>
 			</div>
 
-			<div className="z-2 flex h-85 w-full flex-col items-center justify-end pb-8 text-center sm:h-86 sm:pb-0">
+			<div className="z-2 flex h-100 w-full flex-col items-center justify-end pb-0 text-center sm:h-90 sm:pb-0 md:pb-8">
 				<motion.h1
 					variants={headerVariants}
 					initial="hidden"
@@ -75,26 +76,29 @@ export default function Hero() {
 					variants={headerVariants}
 					initial="hidden"
 					whileInView="visible"
-					className="mt-6 rounded-lg bg-neutral-900 px-4 py-2 text-lg text-white transition-all duration-200 hover:cursor-pointer hover:bg-neutral-800 active:scale-103"
+					className="mt-6 rounded-3xl bg-neutral-900 px-8 py-2.5 text-lg text-white transition-all duration-200 hover:scale-102 hover:cursor-pointer hover:bg-neutral-800 active:scale-97"
 				>
 					Join our community
 				</motion.button>
 			</div>
+			{/* <motion.div
+				variants={imageVariants}
+				initial="hidden"
+				whileInView="visible"
+				className="absolute bottom-0 z-2  w-full"
+			>
+				
+			</motion.div> */}
 			<motion.div
 				variants={imageVariants}
 				initial="hidden"
 				whileInView="visible"
-				className="absolute bottom-0 z-2"
+				className="z-2 h-[400px] w-full"
 			>
-				<Image
-					src="/DevsocHero.png"
-					alt="DevSoc Hero Image"
-					width={505}
-					height={419}
-					className="w-sm sm:w-md"
-				/>
+				<AstronautScene />
 			</motion.div>
-			<div className="absolute bottom-0 z-2 w-full bg-black sm:h-10"></div>
+
+			{/* <div className="absolute bottom-0 z-2 w-full bg-black md:h-10"></div> */}
 		</div>
 	);
 }

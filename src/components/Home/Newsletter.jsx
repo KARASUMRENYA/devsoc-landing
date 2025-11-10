@@ -67,7 +67,7 @@ export default function Newsletter() {
 				{newsletterItems.map((item, index) => (
 					<motion.div
 						key={index}
-						className="grid grid-cols-1 rounded-lg bg-neutral-800/70 transition-colors duration-300 hover:cursor-pointer sm:grid-cols-3 sm:gap-4"
+						className="grid grid-cols-1 rounded-3xl bg-neutral-800/70 transition-colors duration-300 hover:cursor-pointer sm:grid-cols-3 sm:gap-4"
 						variants={itemVariants}
 						initial="hidden"
 						whileInView="visible"
@@ -78,7 +78,7 @@ export default function Newsletter() {
 							alt={item.title}
 							width={500}
 							height={800}
-							className="h-45 w-full rounded-t-lg object-cover object-top sm:w-100 sm:rounded-t-none sm:rounded-l-lg"
+							className="h-45 w-full rounded-t-3xl object-cover object-top sm:w-100 sm:rounded-t-none sm:rounded-l-3xl"
 						/>
 						<div className="col-span-2 flex flex-col justify-center gap-2 p-4 font-sans">
 							<h2 className="text-lg font-semibold sm:text-2xl">
@@ -100,7 +100,7 @@ export default function Newsletter() {
 				className="mx-auto"
 			>
 				<Link href="/events">
-					<button className="bg-accent flex items-center justify-center gap-1 rounded-lg px-4 py-2 text-xl text-black transition-all duration-300 hover:cursor-pointer hover:gap-4 hover:bg-orange-300">
+					<button className="bg-accent flex items-center justify-center gap-1 rounded-3xl px-6 py-2.5 text-xl text-black transition-all duration-300 hover:cursor-pointer hover:gap-4 hover:bg-orange-300">
 						View More
 						<ArrowRight className="" />{" "}
 					</button>

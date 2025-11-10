@@ -2,9 +2,9 @@
 
 import EventCard from "@/components/Events/EventCard";
 import { eventsData } from "@/constant/events";
-import { motion } from "motion/react";
+import { motion, stagger } from "motion/react";
 
-const headerVariants = {
+const variants = {
 	hidden: { opacity: 0, y: 30, filter: "blur(10px)" },
 	visible: {
 		opacity: 1,
@@ -14,23 +14,32 @@ const headerVariants = {
 	},
 };
 
+const containerVariants = {
+	hidden: { opacity: 0 },
+	visible: {
+		opacity: 1,
+		transition: {
+			staggerChildren: 0.1,
+		},
+	},
+};
+
 export default function Page() {
 	return (
-		<div className="mx-auto flex max-w-[1800px] flex-col items-center justify-center bg-black text-white">
-			<div className="flex w-full max-w-6xl flex-col items-center justify-center gap-8 bg-black p-4 pt-24 pb-16 sm:pb-24">
-
-				<div>
+		<div className="min-h-screen w-full bg-black text-white">
+			<div className="mx-auto flex max-w-7xl flex-col items-center justify-center px-4 py-8 sm:px-6 md:py-24 lg:px-8">
+				<div className="mb-12 w-full text-center">
 					<motion.h1
-						className="font-iceland w-full text-6xl text-center"
-						variants={headerVariants}
+						className="font-iceland mb-4 text-6xl font-bold"
+						variants={variants}
 						initial="hidden"
 						animate="visible"
 					>
 						Events
 					</motion.h1>
 					<motion.p
-						className="w-full text-xl text-center"
-						variants={headerVariants}
+						className="text-xl text-neutral-200"
+						variants={variants}
 						initial="hidden"
 						animate="visible"
 					>
@@ -38,13 +47,19 @@ export default function Page() {
 					</motion.p>
 				</div>
 
-				<div className="grid w-full grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+				<motion.div
+					className="grid w-full grid-cols-1 gap-6 px-4 sm:grid-cols-2 md:px-0 lg:grid-cols-3 xl:grid-cols-4"
+					variants={containerVariants}
+					initial="hidden"
+					whileInView="visible"
+				>
 					{eventsData.map((event) => (
-						<EventCard key={event.id} event={event} />
+						<motion.div key={event.id} variants={variants}>
+							<EventCard event={event} />
+						</motion.div>
 					))}
-				</div>
+				</motion.div>
 			</div>
-
 		</div>
 	);
 }

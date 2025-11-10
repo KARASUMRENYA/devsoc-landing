@@ -5,23 +5,28 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { eventsData } from "@/constant/events";
+import { Carousel, Card } from "@/components/UI/mobileCarousel";
 
 function useMediaQuery(query) {
-	const [matches, setMatches] = useState(false);
+	const [matches, setMatches] = useState(null);
+	const [mounted, setMounted] = useState(false);
+
 	useEffect(() => {
+		setMounted(true);
 		const media = window.matchMedia(query);
 		setMatches(media.matches);
 		const listener = () => setMatches(media.matches);
-		window.addEventListener("resize", listener);
-		return () => window.removeEventListener("resize", listener);
+		media.addEventListener("change", listener);
+		return () => media.removeEventListener("change", listener);
 	}, [query]);
-	return matches;
+
+	return { matches, mounted };
 }
 
 export default function Events() {
 	const [hoveredIndex, setHoveredIndex] = useState(null);
 	const ref = useRef(null);
-	const isMobile = useMediaQuery("(max-width: 768px)");
+	const { matches: isMobile, mounted } = useMediaQuery("(max-width: 768px)");
 
 	const { scrollYProgress } = useScroll({
 		target: ref,
@@ -57,24 +62,45 @@ export default function Events() {
 		},
 	};
 
+	if (!mounted) {
+		return (
+			<section
+				ref={ref}
+				className="bg-accent/20 mx-auto flex w-full flex-col items-start py-16 md:py-20"
+			>
+				<div className="w-full px-4">
+					<motion.h2
+						variants={headerVariants}
+						initial="hidden"
+						whileInView="visible"
+						className="font-iceland mx-auto mb-12 w-full max-w-6xl text-6xl font-bold"
+					>
+						Events
+					</motion.h2>
+					<div className="h-96" />
+				</div>
+			</section>
+		);
+	}
+
 	return (
 		<section
 			ref={ref}
-			className="mx-auto flex w-full flex-col items-start py-16 md:py-20 bg-accent/20"
+			className="bg-accent/20 mx-auto flex w-full flex-col items-start py-16 md:py-20"
 		>
-			<div className="w-full px-4">
+			<div className="w-full">
 				<motion.h2
 					variants={headerVariants}
 					initial="hidden"
 					whileInView="visible"
-					className="font-iceland mx-auto mb-12 w-full max-w-6xl text-6xl font-bold"
+					className="font-iceland mx-auto mb-12 w-full max-w-6xl px-4 text-6xl font-bold"
 				>
 					Events
 				</motion.h2>
 
 				{/* Responsive layout switch */}
 				{isMobile ? (
-					<MobileDraggableStack eventsData={eventsData} />
+					<AppleCardsCarouselSection />
 				) : (
 					<FannedLayout
 						eventsData={eventsData}
@@ -84,19 +110,21 @@ export default function Events() {
 					/>
 				)}
 
-				<motion.div
-					variants={buttonVariants}
-					initial="hidden"
-					whileInView="visible"
-					className="flex justify-center"
-				>
-					<Link href="/events">
-						<button className="mx-auto flex items-center justify-center gap-1 rounded-lg bg-neutral-950 px-4 py-2 text-xl text-white transition-all duration-300 hover:cursor-pointer hover:gap-4 hover:bg-neutral-800">
-							View More
-							<ArrowRight className="" />{" "}
-						</button>
-					</Link>
-				</motion.div>
+				{!isMobile && (
+					<motion.div
+						variants={buttonVariants}
+						initial="hidden"
+						whileInView="visible"
+						className="flex justify-center"
+					>
+						<Link href="/events">
+							<button className="mx-auto flex items-center justify-center gap-1 rounded-3xl bg-neutral-950 px-6 py-2.5 text-xl text-white transition-all duration-300 hover:cursor-pointer hover:gap-4 hover:bg-neutral-800">
+								View More
+								<ArrowRight className="" />{" "}
+							</button>
+						</Link>
+					</motion.div>
+				)}
 			</div>
 		</section>
 	);
@@ -158,7 +186,7 @@ function FannedLayout({
 								<motion.div
 									whileHover={{ y: -10, scale: hoverScale }}
 									transition={{ type: "tween", duration: 0.25 }}
-									className={`group relative cursor-pointer rounded-lg bg-neutral-600 transition-all duration-300 ease-out`}
+									className={`group relative cursor-pointer rounded-3xl bg-neutral-600 transition-all duration-300 ease-out`}
 									style={{
 										filter: isHovered
 											? "drop-shadow(12px 12px 12px rgba(0,0,0,0.5))"
@@ -168,9 +196,9 @@ function FannedLayout({
 									<img
 										src={event.image || "/placeholder.svg"}
 										alt={event.title}
-										className="aspect-3/4 w-full rounded-lg object-cover transition-transform duration-300 ease-out"
+										className="aspect-3/4 w-full rounded-3xl object-cover transition-transform duration-300 ease-out"
 									/>
-									<div className="absolute inset-0 flex items-end rounded-lg bg-linear-to-b from-transparent to-black p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+									<div className="absolute inset-0 flex items-end rounded-3xl bg-linear-to-b from-transparent to-black p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
 										<div>
 											<h3 className="text-lg font-bold text-white">
 												{event.title}
@@ -188,79 +216,40 @@ function FannedLayout({
 	);
 }
 
-function MobileDraggableStack({ eventsData }) {
+function AppleCardsCarouselSection() {
+	const limitedEvents = eventsData.slice(0, 3);
+
+	const cards = limitedEvents.map((event, index) => {
+		const cardData = {
+			category: event.date,
+			title: event.title,
+			src: event.image,
+			href: `/events/${event.id}`,
+		};
+		return <Card key={event.id} card={cardData} index={index} />;
+	});
+
+	const viewMoreCard = (
+		<Link href="/events" key="view-more">
+			<motion.div
+				initial={{ opacity: 0, y: 20 }}
+				animate={{ opacity: 1, y: 0 }}
+				transition={{ duration: 0.5, delay: 0.6, ease: "easeOut" }}
+				className="relative flex h-110 w-75 cursor-pointer items-center justify-center overflow-hidden rounded-3xl bg-neutral-900 shadow-[2px_2px_5px_rgba(0,0,0,0.2),-2px_2px_5px_rgba(0,0,0,0.2),0_4px_5px_rgba(0,0,0,0.2)] md:h-160 md:w-96"
+				whileHover={{ scale: 1.05 }}
+			>
+				<div className="flex flex-col items-center justify-center gap-4 text-white">
+					<ArrowRight className="h-12 w-12" />
+					<p className="text-2xl font-bold">View More</p>
+					<p className="text-sm text-gray-400">See all events</p>
+				</div>
+			</motion.div>
+		</Link>
+	);
+
 	return (
-		<div className="relative mb-12 flex flex-col items-center">
-			{eventsData.map((event, index) => {
-				const rotate = -10 + index * 5;
-
-				const cardVariants = {
-					hidden: { opacity: 0, y: 30, filter: "blur(10px)", rotate },
-					visible: (i) => ({
-						opacity: 1,
-						y: 0,
-						filter: "blur(0px)",
-						rotate,
-						transition: {
-							delay: i * 0.1,
-							duration: 0.4,
-							ease: "easeOut",
-						},
-					}),
-				};
-
-				return (
-					<motion.div
-						key={event.id}
-						custom={index}
-						variants={cardVariants}
-						initial="hidden"
-						whileInView="visible"
-						drag
-						dragConstraints={{ top: 0, bottom: 0, left: 0, right: 0 }}
-						dragElastic={0.35}
-						className={`relative w-64 sm:w-72 ${
-							index === 0 ? "" : `-mt-[100px]`
-						}`}
-						style={{
-							zIndex: eventsData.length - index,
-							filter: "drop-shadow(0 8px 10px rgba(0,0,0,0.4))",
-						}}
-						whileHover={{
-							scale: 1.05,
-							y: -10,
-							rotate: 0,
-							transition: { type: "spring", stiffness: 140, damping: 12 },
-						}}
-						whileTap={{
-							scale: 0.97,
-						}}
-					>
-						<Link href={`/events/${event.id}`} scroll>
-							<motion.div className="group relative overflow-hidden rounded-xl bg-white shadow-xl">
-								<img
-									src={event.image}
-									alt={event.title}
-									className="aspect-3/4 w-full rounded-xl bg-gray-50 object-cover"
-								/>
-
-								<motion.div
-									initial={{ opacity: 0 }}
-									whileTap={{ opacity: 1 }}
-									className="absolute inset-0 flex items-end bg-linear-to-b from-transparent to-black/70 p-4"
-								>
-									<div>
-										<h3 className="text-lg font-bold text-white">
-											{event.title}
-										</h3>
-										<p className="text-sm text-gray-200">{event.date}</p>
-									</div>
-								</motion.div>
-							</motion.div>
-						</Link>
-					</motion.div>
-				);
-			})}
+		<div className="w-full">
+			<Carousel items={[...cards, viewMoreCard]} />
 		</div>
 	);
 }

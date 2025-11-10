@@ -1,27 +1,12 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "motion/react";
+import { motion } from "motion/react";
 import { ChevronRight } from "lucide-react";
-import { useRef } from "react";
 import { galleryItems } from "@/constant/gallery";
 import Image from "next/image";
 
 export default function Gallery() {
-	const ref = useRef(null);
-
-	const { scrollYProgress } = useScroll({
-		target: ref,
-		offset: ["start end", "end start"],
-	});
-
-	const galleryScale = useTransform(
-		scrollYProgress,
-		[0, 0.5, 1],
-		[0.9, 1, 0.9],
-	);
-	const galleryBlur = useTransform(scrollYProgress, [0, 0.5, 1], [8, 0, 8]);
-
-	const headerVariants = {
+	const variants = {
 		hidden: { opacity: 0, y: 30, filter: "blur(10px)" },
 		visible: {
 			opacity: 1,
@@ -35,10 +20,10 @@ export default function Gallery() {
 	};
 
 	return (
-		<section ref={ref} className="w-full pt-8 pb-24 bg-accent/20">
+		<section className="bg-accent/20 w-full pt-0 pb-24 md:pt-8">
 			<div className="mx-auto max-w-6xl px-4">
 				<motion.h2
-					variants={headerVariants}
+					variants={variants}
 					initial="hidden"
 					whileInView="visible"
 					className="font-iceland mb-12 text-6xl font-bold"
@@ -47,17 +32,25 @@ export default function Gallery() {
 				</motion.h2>
 
 				<motion.div
-					style={{ scale: galleryScale, filter: galleryBlur }}
+					initial="hidden"
+					whileInView="visible"
+					variants={{
+						visible: {
+							transition: {
+								staggerChildren: 0.1,
+							},
+						},
+					}}
 					className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6"
 				>
 					{galleryItems.map((item, index) => (
 						<motion.div
 							key={index}
-							initial={{ opacity: 0, scale: 0.9 }}
-							whileInView={{ opacity: 1, scale: 1 }}
-							transition={{ duration: 0.3, delay: index * 0.1 }}
+							variants={variants}
+							initial="hidden"
+							whileInView="visible"
 							whileHover={{ scale: 1.03 }}
-							className="group relative aspect-square cursor-pointer overflow-hidden rounded-lg"
+							className="group relative aspect-square cursor-pointer overflow-hidden rounded-3xl shadow-[0_1px_1px_rgba(0,0,0,0.15),0_4px_6px_rgba(34,42,53,0.14),0_24px_68px_rgba(47,48,55,0.15),0_2px_3px_rgba(0,0,0,0.14)]"
 						>
 							<Image
 								src={item.image}
@@ -65,7 +58,6 @@ export default function Gallery() {
 								fill
 								sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
 								className="bg-neutral-700 object-cover transition-all duration-200 group-hover:brightness-75"
-								priority={index < 2} // loads first few images eagerly
 							/>
 
 							<div className="absolute inset-0 flex items-end bg-linear-to-t from-black to-transparent to-60% p-4">
