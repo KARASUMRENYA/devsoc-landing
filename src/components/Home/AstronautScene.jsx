@@ -1,15 +1,19 @@
-import React, { useRef, useEffect, useState, Suspense } from "react";
+import React, { useRef, useEffect, useState, Suspense, useMemo } from "react";
 import { useGLTF, useAnimations, Environment } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
+import { useInView } from "react-intersection-observer";
 import * as THREE from "three";
 
 function AstronautModel({ mouse, isAstronautVisible }) {
 	const [scale, setScale] = useState(5);
+	const [isMobile, setIsMobile] = useState(false);
 
 	useEffect(() => {
 		const updateScale = () => {
 			if (typeof window !== "undefined") {
-				if (window.innerWidth < 768) {
+				const mobile = window.innerWidth < 768;
+				setIsMobile(mobile);
+				if (mobile) {
 					setScale(4.25);
 				} else {
 					setScale(4.5);
@@ -28,6 +32,21 @@ function AstronautModel({ mouse, isAstronautVisible }) {
 	const modelGroup = useRef();
 	const headRef = useRef();
 	const { actions } = useAnimations(animations, scene);
+
+	// Optimize materials for mobile
+	useEffect(() => {
+		if (isMobile) {
+			scene.traverse((child) => {
+				if (child.isMesh) {
+					child.castShadow = false;
+					child.receiveShadow = false;
+					if (child.material) {
+						child.material.precision = "lowp";
+					}
+				}
+			});
+		}
+	}, [scene, isMobile]);
 
 	useEffect(() => {
 		// Play first animation if available
@@ -64,18 +83,25 @@ function AstronautModel({ mouse, isAstronautVisible }) {
 		// }
 	}, [scene, actions]);
 
-	// Animate head tracking with mouse
+	// Animate head tracking with mouse (skip on mobile for performance)
 	useFrame(() => {
-		if (headRef.current && mouse.current && typeof window !== "undefined") {
+		if (
+			!isMobile &&
+			headRef.current &&
+			mouse.current &&
+			typeof window !== "undefined"
+		) {
 			let targetX = 0;
 			let targetZ = 0;
 
-			// Only follow cursor if astronaut is visible
+			// Only follow cursor if astronaut is visible, with smooth damping
 			if (isAstronautVisible) {
 				targetX = (mouse.current.x / window.innerWidth) * 2 - 1;
 				targetZ = (mouse.current.y / window.innerHeight) * 2 - 1;
 			}
+			// When not visible, targetX and targetZ remain 0, creating smooth transition to neutral
 
+			// Smooth lerp with damping for natural motion
 			headRef.current.rotation.y = THREE.MathUtils.lerp(
 				headRef.current.rotation.y,
 				targetX * 0.8,
@@ -90,14 +116,19 @@ function AstronautModel({ mouse, isAstronautVisible }) {
 		}
 	});
 
+	// Memoize group props for performance
+	const groupProps = useMemo(
+		() => ({
+			position: [0, -2.4, 0],
+			rotation: [0, -Math.PI / 2, 0],
+			scale: scale,
+		}),
+		[scale],
+	);
+
 	// Rotate model to face front (-90 degrees on Y axis)
 	return (
-		<group
-			ref={modelGroup}
-			position={[0, -2.4, 0]}
-			rotation={[0, -Math.PI / 2, 0]}
-			scale={scale}
-		>
+		<group ref={modelGroup} {...groupProps}>
 			<primitive object={scene} />
 		</group>
 	);
@@ -115,10 +146,21 @@ function LoadingPlaceholder() {
 
 export default function AstronautScene() {
 	const mouse = useRef({ x: 0, y: 0 });
-	const containerRef = useRef(null);
-	const [isAstronautVisible, setIsAstronautVisible] = useState(true);
+	const { ref: containerRef, inView: isAstronautVisible } = useInView({
+		threshold: 0.1,
+		triggerOnce: false,
+		initialInView: true,
+	});
+	const [isMobile, setIsMobile] = useState(false);
 
 	useEffect(() => {
+		// Detect mobile device
+		const checkMobile = () => {
+			setIsMobile(window.innerWidth < 768);
+		};
+		checkMobile();
+		window.addEventListener("resize", checkMobile);
+
 		// Initialize mouse position after mount
 		mouse.current = {
 			x: typeof window !== "undefined" ? window.innerWidth / 2 : 0,
@@ -129,26 +171,12 @@ export default function AstronautScene() {
 			mouse.current = { x: event.clientX, y: event.clientY };
 		};
 
-		const handleScroll = () => {
-			if (containerRef?.current && typeof window !== "undefined") {
-				const rect = containerRef.current.getBoundingClientRect();
-				// Check if astronaut container is visible in viewport
-				const inView = rect.bottom > 0 && rect.top < window.innerHeight;
-
-				setIsAstronautVisible(inView);
-			}
-		};
-
 		if (typeof window !== "undefined") {
 			window.addEventListener("mousemove", handleMouseMove);
-			window.addEventListener("scroll", handleScroll);
-
-			// Initial check
-			handleScroll();
 
 			return () => {
 				window.removeEventListener("mousemove", handleMouseMove);
-				window.removeEventListener("scroll", handleScroll);
+				window.removeEventListener("resize", checkMobile);
 			};
 		}
 	}, []);
@@ -166,12 +194,22 @@ export default function AstronautScene() {
 				<Canvas
 					camera={{ position: [0, 0.5, 5], fov: 50 }}
 					style={{ width: "100%", height: "100%" }}
-					dpr={[1, 2]}
+					dpr={isMobile ? [0.5, 1] : [1, 2]}
 					performance={{ min: 0.5 }}
 					frameloop={isAstronautVisible ? "always" : "never"}
+					gl={{
+						powerPreference: "high-performance",
+						antialias: !isMobile,
+						stencil: false,
+						depth: true,
+					}}
 				>
 					<ambientLight intensity={0.6} />
-					<directionalLight position={[3, 5, 5]} intensity={1.5} />
+					<directionalLight
+						position={[3, 5, 5]}
+						intensity={1.5}
+						castShadow={false}
+					/>
 					<Environment preset="city" />
 					<Suspense fallback={<LoadingPlaceholder />}>
 						<AstronautModel

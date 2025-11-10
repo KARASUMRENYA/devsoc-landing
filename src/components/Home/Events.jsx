@@ -93,7 +93,7 @@ export default function Events() {
 					variants={headerVariants}
 					initial="hidden"
 					whileInView="visible"
-					className="font-iceland px-4 mx-auto mb-12 w-full max-w-6xl text-6xl font-bold"
+					className="font-iceland mx-auto mb-12 w-full max-w-6xl px-4 text-6xl font-bold"
 				>
 					Events
 				</motion.h2>

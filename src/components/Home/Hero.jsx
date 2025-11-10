@@ -76,7 +76,7 @@ export default function Hero() {
 					variants={headerVariants}
 					initial="hidden"
 					whileInView="visible"
-					className="mt-6 rounded-3xl bg-neutral-900 px-8 py-2.5 text-lg text-white transition-all duration-200 hover:cursor-pointer hover:bg-neutral-800 active:scale-97 hover:scale-102"
+					className="mt-6 rounded-3xl bg-neutral-900 px-8 py-2.5 text-lg text-white transition-all duration-200 hover:scale-102 hover:cursor-pointer hover:bg-neutral-800 active:scale-97"
 				>
 					Join our community
 				</motion.button>
@@ -93,7 +93,7 @@ export default function Hero() {
 				variants={imageVariants}
 				initial="hidden"
 				whileInView="visible"
-				className="z-2 w-full h-[400px]"
+				className="z-2 h-[400px] w-full"
 			>
 				<AstronautScene />
 			</motion.div>

@@ -20,7 +20,7 @@ export default function Gallery() {
 	};
 
 	return (
-		<section className="w-full pt-0 md:pt-8 pb-24 bg-accent/20">
+		<section className="bg-accent/20 w-full pt-0 pb-24 md:pt-8">
 			<div className="mx-auto max-w-6xl px-4">
 				<motion.h2
 					variants={variants}
