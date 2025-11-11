@@ -6,6 +6,7 @@ import { ArrowRight } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { eventsData } from "@/constant/events";
 import { Carousel, Card } from "@/components/UI/mobileCarousel";
+import { fadeInBlur, fadeInBlurFast } from "@/lib/motionVariants";
 
 function useMediaQuery(query) {
 	const [matches, setMatches] = useState(null);
@@ -39,29 +40,6 @@ export default function Events() {
 		[0.98, 1, 0.98],
 	);
 
-	const headerVariants = {
-		hidden: { opacity: 0, y: 30, filter: "blur(10px)" },
-		visible: {
-			opacity: 1,
-			y: 0,
-			filter: "blur(0px)",
-			transition: {
-				duration: 0.4,
-				ease: "easeOut",
-			},
-		},
-	};
-
-	const buttonVariants = {
-		hidden: { opacity: 0, y: 30, filter: "blur(10px)" },
-		visible: {
-			opacity: 1,
-			y: 0,
-			filter: "blur(0px)",
-			transition: { duration: 0.3, ease: "easeOut" },
-		},
-	};
-
 	if (!mounted) {
 		return (
 			<section
@@ -70,9 +48,10 @@ export default function Events() {
 			>
 				<div className="w-full px-4">
 					<motion.h2
-						variants={headerVariants}
+						variants={fadeInBlur}
 						initial="hidden"
 						whileInView="visible"
+						viewport={{ once: true }}
 						className="font-iceland mx-auto mb-12 w-full max-w-6xl text-6xl font-bold"
 					>
 						Events
@@ -90,10 +69,11 @@ export default function Events() {
 		>
 			<div className="w-full">
 				<motion.h2
-					variants={headerVariants}
+					variants={fadeInBlur}
 					initial="hidden"
 					whileInView="visible"
-					className="font-iceland mx-auto mb-12 w-full max-w-6xl px-4 text-6xl font-bold"
+					viewport={{ once: true }}
+					className="font-iceland mx-auto md:mb-12 w-full max-w-6xl px-4 text-6xl font-bold"
 				>
 					Events
 				</motion.h2>
@@ -112,9 +92,10 @@ export default function Events() {
 
 				{!isMobile && (
 					<motion.div
-						variants={buttonVariants}
+						variants={fadeInBlurFast}
 						initial="hidden"
 						whileInView="visible"
+						viewport={{ once: true }}
 						className="flex justify-center"
 					>
 						<Link href="/events">
@@ -157,7 +138,7 @@ function FannedLayout({
 
 					return (
 						<motion.div
-							key={event.id}
+							key={event.slug}
 							className="absolute top-1/2 left-1/2 w-40 origin-center sm:w-48 lg:w-60"
 							style={{
 								translate: "-50% -50%",
@@ -179,10 +160,11 @@ function FannedLayout({
 								},
 								filter: "blur(0px)",
 							}}
+							viewport={{ once: true }}
 							onMouseEnter={() => setHoveredIndex(index)}
 							onMouseLeave={() => setHoveredIndex(null)}
 						>
-							<Link href={`/events/${event.id}`} scroll>
+							<Link href={`/events/${event.slug}`} scroll>
 								<motion.div
 									whileHover={{ y: -10, scale: hoverScale }}
 									transition={{ type: "tween", duration: 0.25 }}
@@ -224,9 +206,9 @@ function AppleCardsCarouselSection() {
 			category: event.date,
 			title: event.title,
 			src: event.image,
-			href: `/events/${event.id}`,
+			href: `/events/${event.slug}`,
 		};
-		return <Card key={event.id} card={cardData} index={index} />;
+		return <Card key={event.slug} card={cardData} index={index} />;
 	});
 
 	const viewMoreCard = (

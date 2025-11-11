@@ -9,8 +9,8 @@ import { motion } from "motion/react";
 import { ArrowLeft } from "lucide-react";
 
 export default function EventDetailPage({ params }) {
-	const { id } = use(params);
-	const event = eventsData.find((e) => e.id === id);
+	const { slug } = use(params);
+	const event = eventsData.find((e) => e.slug === slug);
 	if (!event) {
 		notFound();
 	}
@@ -35,7 +35,7 @@ export default function EventDetailPage({ params }) {
 				</motion.div>
 
 				{/* Main Content Grid */}
-				<div className="mt-10 grid w-full grid-cols-1 gap-8 md:grid-cols-6 md:gap-12">
+				<div className="mt-6 grid w-full grid-cols-1 gap-8 md:grid-cols-6 md:gap-12">
 					{/* LEFT SIDE (Content) */}
 					<motion.div
 						className="md:col-span-4"

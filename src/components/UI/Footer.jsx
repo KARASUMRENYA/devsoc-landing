@@ -191,6 +191,7 @@ const Footer = () => {
 				variants={devsocVariants}
 				initial="hidden"
 				whileInView="visible"
+				viewport={{ once: true }}
 			>
 				DEVSOC
 			</motion.div>

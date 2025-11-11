@@ -17,7 +17,8 @@ export const Carousel = ({ items }) => {
 					{items.map((item, index) => (
 						<motion.div
 							initial={{ opacity: 0, y: 20 }}
-							animate={{ opacity: 1, y: 0 }}
+							whileInView={{ opacity: 1, y: 0 }}
+							viewport={{ once: true }}
 							transition={{
 								duration: 0.5,
 								delay: 0.2 * index,
@@ -57,6 +58,7 @@ export const Card = ({ card }) => {
 								className="mb-2 text-sm font-medium text-white md:text-base"
 								initial={{ opacity: 0, y: 10 }}
 								whileInView={{ opacity: 1, y: 0 }}
+								viewport={{ once: true }}
 								transition={{ delay: 0.3 }}
 							>
 								{card.category}
@@ -65,6 +67,7 @@ export const Card = ({ card }) => {
 								className="text-xl font-semibold text-white md:text-3xl"
 								initial={{ opacity: 0, y: 10 }}
 								whileInView={{ opacity: 1, y: 0 }}
+								viewport={{ once: true }}
 								transition={{ delay: 0.4 }}
 							>
 								{card.title}

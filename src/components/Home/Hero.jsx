@@ -3,60 +3,9 @@
 import Image from "next/image";
 import { motion } from "motion/react";
 import AstronautScene from "./AstronautScene";
+import { fadeInBlurFast, fadeInFromBottom } from "@/lib/motionVariants";
 
 export default function Hero({ onModelLoaded, shouldAnimate }) {
-	const headerVariants = {
-		hidden: {
-			opacity: 0,
-			y: 20,
-			filter: "blur(10px)",
-		},
-		visible: {
-			opacity: 1,
-			y: 0,
-			filter: "blur(0px)",
-			transition: {
-				duration: 0.3,
-				ease: "easeOut",
-			},
-		},
-	};
-
-	const imageVariants = {
-		hidden: {
-			opacity: 0,
-			y: 100,
-			filter: "blur(10px)",
-		},
-		visible: {
-			opacity: 1,
-			y: 0,
-			filter: "blur(0px)",
-			transition: {
-				delay: 0.5,
-				duration: 0.5,
-				ease: "easeOut",
-			},
-		},
-	};
-
-	const sceneVariants = {
-		hidden: {
-			opacity: 0,
-			y: 100,
-			filter: "blur(10px)",
-		},
-		visible: {
-			opacity: 1,
-			y: 0,
-			filter: "blur(0px)",
-			transition: {
-				delay: 0.5,
-				duration: 0.5,
-				ease: "easeOut",
-			},
-		},
-	};
 	return (
 		<div className="to-accent/30 relative flex h-dvh w-full flex-col items-center justify-end bg-linear-to-t from-slate-300 px-4 pt-4 md:h-[768px]">
 			<Image
@@ -75,25 +24,28 @@ export default function Hero({ onModelLoaded, shouldAnimate }) {
 
 			<div className="z-2 flex h-100 w-full flex-col items-center justify-end pb-0 text-center sm:h-90 sm:pb-0 md:pb-8">
 				<motion.h1
-					variants={headerVariants}
+					variants={fadeInBlurFast}
 					initial="hidden"
 					whileInView={shouldAnimate ? "visible" : "hidden"}
+					viewport={{ once: true }}
 					className="text-5xl font-bold sm:text-6xl"
 				>
 					Welcome to Dev<span className="text-orange-300">Soc</span>
 				</motion.h1>
 				<motion.h2
-					variants={headerVariants}
+					variants={fadeInBlurFast}
 					initial="hidden"
 					whileInView={shouldAnimate ? "visible" : "hidden"}
+					viewport={{ once: true }}
 					className="text-xl sm:text-2xl"
 				>
 					Join our inclusive community
 				</motion.h2>
 				<motion.button
-					variants={headerVariants}
+					variants={fadeInBlurFast}
 					initial="hidden"
 					whileInView={shouldAnimate ? "visible" : "hidden"}
+					viewport={{ once: true }}
 					className="mt-6 rounded-3xl bg-neutral-900 px-8 py-2.5 text-lg text-white transition-all duration-200 hover:scale-102 hover:cursor-pointer hover:bg-neutral-800 active:scale-97"
 				>
 					Join our community
@@ -101,9 +53,10 @@ export default function Hero({ onModelLoaded, shouldAnimate }) {
 			</div>
 
 			<motion.div
-				variants={imageVariants}
+				variants={fadeInFromBottom}
 				initial="hidden"
 				whileInView={shouldAnimate ? "visible" : "hidden"}
+				viewport={{ once: true }}
 				className="flex h-[400px] w-full justify-center md:hidden"
 			>
 				<div className="relative h-full w-full max-w-[400px]">
@@ -117,9 +70,10 @@ export default function Hero({ onModelLoaded, shouldAnimate }) {
 				</div>
 			</motion.div>
 			<motion.div
-				variants={sceneVariants}
+				variants={fadeInFromBottom}
 				initial="hidden"
 				whileInView={shouldAnimate ? "visible" : "hidden"}
+				viewport={{ once: true }}
 				className="z-2 hidden h-[400px] w-full md:block"
 			>
 				<AstronautScene

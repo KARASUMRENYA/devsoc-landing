@@ -3,16 +3,7 @@
 import NewsletterCard from "@/components/Newsletter/NewsletterCard";
 import { newsletterItems } from "@/constant/newsletter";
 import { motion } from "motion/react";
-
-const variants = {
-	hidden: { opacity: 0, y: 30, filter: "blur(10px)" },
-	visible: {
-		opacity: 1,
-		y: 0,
-		filter: "blur(0px)",
-		transition: { duration: 0.5, ease: "easeOut" },
-	},
-};
+import { fadeInBlur } from "@/lib/motionVariants";
 
 export default function Page() {
 	return (
@@ -21,7 +12,7 @@ export default function Page() {
 				<div className="mb-12 w-full text-center">
 					<motion.h1
 						className="font-iceland mb-1 text-6xl font-bold"
-						variants={variants}
+						variants={fadeInBlur}
 						initial="hidden"
 						animate="visible"
 					>
@@ -29,7 +20,7 @@ export default function Page() {
 					</motion.h1>
 					<motion.p
 						className="text-xl text-neutral-200"
-						variants={variants}
+						variants={fadeInBlur}
 						initial="hidden"
 						animate="visible"
 					>

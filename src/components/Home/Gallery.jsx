@@ -4,28 +4,17 @@ import { motion } from "motion/react";
 import { ChevronRight } from "lucide-react";
 import { galleryItems } from "@/constant/gallery";
 import Image from "next/image";
+import { fadeInBlur, staggerContainer } from "@/lib/motionVariants";
 
 export default function Gallery() {
-	const variants = {
-		hidden: { opacity: 0, y: 30, filter: "blur(10px)" },
-		visible: {
-			opacity: 1,
-			y: 0,
-			filter: "blur(0px)",
-			transition: {
-				duration: 0.4,
-				ease: "easeOut",
-			},
-		},
-	};
-
 	return (
 		<section className="bg-accent/20 w-full pt-0 pb-24 md:pt-8">
 			<div className="mx-auto max-w-6xl px-4">
 				<motion.h2
-					variants={variants}
+					variants={fadeInBlur}
 					initial="hidden"
 					whileInView="visible"
+					viewport={{ once: true }}
 					className="font-iceland mb-12 text-6xl font-bold"
 				>
 					Gallery
@@ -34,21 +23,14 @@ export default function Gallery() {
 				<motion.div
 					initial="hidden"
 					whileInView="visible"
-					variants={{
-						visible: {
-							transition: {
-								staggerChildren: 0.1,
-							},
-						},
-					}}
+					viewport={{ once: true }}
+					variants={staggerContainer}
 					className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6"
 				>
 					{galleryItems.map((item, index) => (
 						<motion.div
 							key={index}
-							variants={variants}
-							initial="hidden"
-							whileInView="visible"
+							variants={fadeInBlur}
 							whileHover={{ scale: 1.03 }}
 							className="group relative aspect-square cursor-pointer overflow-hidden rounded-3xl shadow-[0_1px_1px_rgba(0,0,0,0.15),0_4px_6px_rgba(34,42,53,0.14),0_24px_68px_rgba(47,48,55,0.15),0_2px_3px_rgba(0,0,0,0.14)]"
 						>

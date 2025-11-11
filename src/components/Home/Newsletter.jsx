@@ -6,35 +6,17 @@ import { ArrowRight } from "lucide-react";
 import { newsletterItems } from "@/constant/newsletter";
 import Link from "next/link";
 import NewsletterCard from "@/components/Newsletter/NewsletterCard";
-
-const headerVariants = {
-	hidden: { opacity: 0, y: 30, filter: "blur(10px)" },
-	visible: {
-		opacity: 1,
-		y: 0,
-		filter: "blur(0px)",
-		transition: { duration: 0.3, ease: "easeOut" },
-	},
-};
-
-const buttonVariants = {
-	hidden: { opacity: 0, y: 30, filter: "blur(10px)" },
-	visible: {
-		opacity: 1,
-		y: 0,
-		filter: "blur(0px)",
-		transition: { duration: 0.3, ease: "easeOut" },
-	},
-};
+import { fadeInBlur, fadeInBlurFast } from "@/lib/motionVariants";
 
 export default function Newsletter({ showViewMoreButton = true }) {
 	return (
 		<div className="z-2 flex w-full flex-col items-start justify-center gap-8 bg-black p-4 pt-12 pb-16 text-white sm:pb-24">
 			<motion.h1
 				className="font-iceland mx-auto w-full max-w-6xl text-6xl"
-				variants={headerVariants}
+				variants={fadeInBlur}
 				initial="hidden"
 				whileInView="visible"
+				viewport={{ once: true }}
 			>
 				Newsletter
 			</motion.h1>
@@ -47,9 +29,10 @@ export default function Newsletter({ showViewMoreButton = true }) {
 
 			{showViewMoreButton && (
 				<motion.div
-					variants={buttonVariants}
+					variants={fadeInBlurFast}
 					initial="hidden"
 					whileInView="visible"
+					viewport={{ once: true }}
 					className="mx-auto"
 				>
 					<Link href="/newsletter">

@@ -25,34 +25,16 @@ const activities = [
 	},
 ];
 
-const containerVariants = {
-	hidden: { opacity: 0 },
-	visible: {
-		opacity: 1,
-		transition: {
-			staggerChildren: 0.1,
-		},
-	},
-};
+import { fadeInBlur, staggerContainer } from "@/lib/motionVariants";
 
 const itemVariants = {
-	hidden: { opacity: 0, y: 20 },
+	hidden: { opacity: 0, y: 20, filter: "blur(10px)" },
 	visible: {
 		opacity: 1,
 		y: 0,
+		filter: "blur(0px)",
 		transition: {
 			duration: 0.5,
-		},
-	},
-};
-
-const cardVariants = {
-	hidden: { opacity: 0, scale: 0.9 },
-	visible: {
-		opacity: 1,
-		scale: 1,
-		transition: {
-			duration: 0.4,
 		},
 	},
 };
@@ -60,7 +42,7 @@ const cardVariants = {
 function MemberCard({ member, index }) {
 	return (
 		<motion.div
-			variants={cardVariants}
+			variants={fadeInBlur}
 			initial="hidden"
 			whileInView="visible"
 			viewport={{ once: true, margin: "-50px" }}
@@ -88,23 +70,24 @@ function MemberCard({ member, index }) {
 
 export default function AboutPage() {
 	return (
-		<div className="min-h-screen bg-black px-4 pt-24 pb-16 text-white md:pt-32">
+		<div className="min-h-screen bg-black px-4 py-8 text-white md:py-24">
 			<div className="mx-auto max-w-6xl">
 				<motion.div
-					initial={{ opacity: 0, y: -20 }}
-					animate={{ opacity: 1, y: 0 }}
+					variants={itemVariants}
+					initial="hidden"
+					whileInView="visible"
+					viewport={{ once: true }}
 					transition={{ duration: 0.6 }}
-					className="mb-12 text-center"
+					className="mb-6 text-center"
 				>
-					<h1 className="font-iceland mb-6 text-5xl font-bold md:text-6xl">
-						About Us
-					</h1>
+					<h1 className="font-iceland text-6xl font-bold">About Us</h1>
 				</motion.div>
 
 				<motion.div
-					initial={{ opacity: 0, y: 20 }}
-					animate={{ opacity: 1, y: 0 }}
-					transition={{ duration: 0.6, delay: 0.2 }}
+					variants={itemVariants}
+					initial="hidden"
+					whileInView="visible"
+					viewport={{ once: true }}
 					className="mb-16 text-center"
 				>
 					<p className="mx-auto max-w-4xl text-lg leading-relaxed text-neutral-300">
@@ -117,7 +100,7 @@ export default function AboutPage() {
 				</motion.div>
 
 				<motion.div
-					variants={containerVariants}
+					variants={staggerContainer}
 					initial="hidden"
 					whileInView="visible"
 					viewport={{ once: true, margin: "-100px" }}
@@ -155,7 +138,7 @@ export default function AboutPage() {
 				</motion.div>
 
 				<motion.div
-					variants={containerVariants}
+					variants={staggerContainer}
 					initial="hidden"
 					whileInView="visible"
 					viewport={{ once: true, margin: "-100px" }}
@@ -207,10 +190,10 @@ export default function AboutPage() {
 				</motion.div>
 
 				<motion.div
-					initial={{ opacity: 0 }}
-					whileInView={{ opacity: 1 }}
+					variants={itemVariants}
+					initial="hidden"
+					whileInView="visible"
 					viewport={{ once: true, margin: "-100px" }}
-					transition={{ duration: 0.6 }}
 					className="mb-20"
 				>
 					<h2 className="mb-8 text-3xl font-bold text-orange-300 md:text-4xl">
@@ -224,10 +207,10 @@ export default function AboutPage() {
 				</motion.div>
 
 				<motion.div
-					initial={{ opacity: 0 }}
-					whileInView={{ opacity: 1 }}
+					variants={itemVariants}
+					initial="hidden"
+					whileInView="visible"
 					viewport={{ once: true, margin: "-100px" }}
-					transition={{ duration: 0.6 }}
 				>
 					<h2 className="mb-8 text-3xl font-bold text-orange-300 md:text-4xl">
 						Sub-Committee Members:
