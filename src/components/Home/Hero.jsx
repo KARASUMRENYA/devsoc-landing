@@ -4,7 +4,7 @@ import Image from "next/image";
 import { motion } from "motion/react";
 import AstronautScene from "./AstronautScene";
 
-export default function Hero() {
+export default function Hero({ onModelLoaded, shouldAnimate }) {
 	const headerVariants = {
 		hidden: {
 			opacity: 0,
@@ -59,24 +59,27 @@ export default function Hero() {
 				<motion.h1
 					variants={headerVariants}
 					initial="hidden"
-					whileInView="visible"
+					animate={shouldAnimate ? "visible" : "hidden"}
 					className="text-5xl font-bold sm:text-6xl"
+					style={{ opacity: shouldAnimate ? undefined : 0 }}
 				>
 					Welcome to Dev<span className="text-orange-300">Soc</span>
 				</motion.h1>
 				<motion.h2
 					variants={headerVariants}
 					initial="hidden"
-					whileInView="visible"
+					animate={shouldAnimate ? "visible" : "hidden"}
 					className="text-xl sm:text-2xl"
+					style={{ opacity: shouldAnimate ? undefined : 0 }}
 				>
 					Join our inclusive community
 				</motion.h2>
 				<motion.button
 					variants={headerVariants}
 					initial="hidden"
-					whileInView="visible"
+					animate={shouldAnimate ? "visible" : "hidden"}
 					className="mt-6 rounded-3xl bg-neutral-900 px-8 py-2.5 text-lg text-white transition-all duration-200 hover:scale-102 hover:cursor-pointer hover:bg-neutral-800 active:scale-97"
+					style={{ opacity: shouldAnimate ? undefined : 0 }}
 				>
 					Join our community
 				</motion.button>
@@ -85,8 +88,9 @@ export default function Hero() {
 			<motion.div
 				variants={imageVariants}
 				initial="hidden"
-				whileInView="visible"
+				animate={shouldAnimate ? "visible" : "hidden"}
 				className="flex h-[400px] w-full justify-center md:hidden"
+				style={{ opacity: shouldAnimate ? undefined : 0 }}
 			>
 				<div className="relative h-full w-full max-w-[400px]">
 					<Image
@@ -101,10 +105,11 @@ export default function Hero() {
 			<motion.div
 				variants={imageVariants}
 				initial="hidden"
-				whileInView="visible"
+				animate={shouldAnimate ? "visible" : "hidden"}
 				className="z-2 hidden h-[400px] w-full md:block"
+				style={{ opacity: shouldAnimate ? undefined : 0 }}
 			>
-				<AstronautScene />
+				<AstronautScene onModelLoaded={onModelLoaded} />
 			</motion.div>
 
 			{/* <div className="absolute bottom-0 z-2 w-full bg-black md:h-10"></div> */}

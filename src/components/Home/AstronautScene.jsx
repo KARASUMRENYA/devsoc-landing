@@ -4,7 +4,7 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { useInView } from "react-intersection-observer";
 import * as THREE from "three";
 
-function AstronautModel({ mouse, isAstronautVisible }) {
+function AstronautModel({ mouse, isAstronautVisible, onModelLoaded }) {
 	const [scale, setScale] = useState(5);
 	const [isMobile, setIsMobile] = useState(false);
 
@@ -32,6 +32,15 @@ function AstronautModel({ mouse, isAstronautVisible }) {
 	const modelGroup = useRef();
 	const headRef = useRef();
 	const { actions } = useAnimations(animations, scene);
+	const [hasNotifiedLoad, setHasNotifiedLoad] = useState(false);
+
+	// Notify when model is loaded
+	useEffect(() => {
+		if (scene && !hasNotifiedLoad) {
+			setHasNotifiedLoad(true);
+			onModelLoaded?.();
+		}
+	}, [scene, hasNotifiedLoad, onModelLoaded]);
 
 	// Optimize materials for mobile
 	useEffect(() => {
@@ -139,7 +148,7 @@ function LoadingPlaceholder() {
 	return null;
 }
 
-export default function AstronautScene() {
+export default function AstronautScene({ onModelLoaded }) {
 	const mouse = useRef({ x: 0, y: 0 });
 	const { ref: containerRef, inView: isAstronautVisible } = useInView({
 		threshold: 0.1,
@@ -201,6 +210,7 @@ export default function AstronautScene() {
 						<AstronautModel
 							mouse={mouse}
 							isAstronautVisible={isAstronautVisible}
+							onModelLoaded={onModelLoaded}
 						/>
 					</Suspense>
 				</Canvas>
