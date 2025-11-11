@@ -42,7 +42,7 @@ export default function RootLayout({ children }) {
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<body
-				className={`${geistSans.variable} ${geistMono.variable} ${bricolageGrotesque.className} ${iceland.variable} pb-16 antialiased md:pb-0`}
+				className={`${geistSans.variable} ${geistMono.variable} ${bricolageGrotesque.className} ${iceland.variable} pb-18 antialiased md:pb-0`}
 				suppressHydrationWarning
 			>
 				<SmoothScroll />

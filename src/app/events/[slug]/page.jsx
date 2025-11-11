@@ -3,10 +3,10 @@
 import { use } from "react";
 import { eventsData } from "@/constant/events";
 import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { motion } from "motion/react";
-import { ArrowLeft } from "lucide-react";
+import { fadeInBlur } from "@/lib/motionVariants";
+import BackButton from "@/components/UI/BackButton";
 
 export default function EventDetailPage({ params }) {
 	const { slug } = use(params);
@@ -18,30 +18,17 @@ export default function EventDetailPage({ params }) {
 	return (
 		<div className="relative flex w-full flex-col items-center justify-center bg-black p-4 pt-20 pb-16 text-white sm:p-6 sm:pb-24 md:pt-40">
 			<div className="relative w-full max-w-6xl">
-				{/*  Floating Back Button placed outside main grid */}
-				<motion.div
-					className="absolute -top-10 left-0 sm:-top-14"
-					initial={{ opacity: 0, x: -20 }}
-					animate={{ opacity: 1, x: 0 }}
-					transition={{ duration: 0.5 }}
-				>
-					<Link
-						href="/events"
-						className="flex items-center gap-2 rounded-lg bg-neutral-800 px-4 py-2 text-neutral-200 transition-colors hover:bg-neutral-700 hover:text-white"
-					>
-						<ArrowLeft size={18} />
-						Back to all events
-					</Link>
-				</motion.div>
+				<BackButton href="/events" label="Back to all events" />
 
 				{/* Main Content Grid */}
 				<div className="mt-6 grid w-full grid-cols-1 gap-8 md:grid-cols-6 md:gap-12">
 					{/* LEFT SIDE (Content) */}
 					<motion.div
 						className="md:col-span-4"
-						initial={{ opacity: 0, y: 30 }}
-						animate={{ opacity: 1, y: 0 }}
-						transition={{ duration: 0.5, delay: 0.1 }}
+						variants={fadeInBlur}
+						initial="hidden"
+						whileInView="visible"
+						viewport={{ once: true }}
 					>
 						<h1 className="font-iceland mb-2 text-5xl font-bold sm:text-7xl">
 							{event.title}
@@ -57,9 +44,10 @@ export default function EventDetailPage({ params }) {
 					{/* RIGHT SIDE (Image) */}
 					<motion.div
 						className="relative w-full overflow-hidden rounded-3xl bg-neutral-800 md:col-span-2"
-						initial={{ opacity: 0, y: 30 }}
-						animate={{ opacity: 1, y: 0 }}
-						transition={{ duration: 0.5, delay: 0.2 }}
+						variants={fadeInBlur}
+						initial="hidden"
+						whileInView="visible"
+						viewport={{ once: true }}
 					>
 						<Image
 							src={event.image}
@@ -77,17 +65,22 @@ export default function EventDetailPage({ params }) {
 				{event.gallery && event.gallery.length > 0 && (
 					<motion.div
 						className="w-full pt-12"
-						initial={{ opacity: 0, y: 30 }}
-						animate={{ opacity: 1, y: 0 }}
-						transition={{ duration: 0.5, delay: 0.3 }}
+						variants={fadeInBlur}
+						initial="hidden"
+						whileInView="visible"
+						viewport={{ once: true }}
 					>
 						<h2 className="font-iceland mb-6 text-5xl font-bold">
 							Event Snaps
 						</h2>
 						<div className="columns-2 gap-4 lg:columns-4">
 							{event.gallery.map((photoUrl, index) => (
-								<div
+								<motion.div
 									key={index}
+									variants={fadeInBlur}
+									initial="hidden"
+									whileInView="visible"
+									viewport={{ once: true }}
 									className="group relative mb-4 w-full break-inside-avoid overflow-hidden rounded-3xl bg-neutral-800"
 								>
 									<Image
@@ -98,7 +91,7 @@ export default function EventDetailPage({ params }) {
 										className="h-auto w-full object-cover transition-transform duration-300 group-hover:scale-105"
 										sizes="(max-width: 768px) 50vw, 25vw"
 									/>
-								</div>
+								</motion.div>
 							))}
 						</div>
 					</motion.div>

@@ -1,7 +1,3 @@
-/**
- * Centralized motion variants for consistent animations across the application
- */
-
 // Common fade in with blur effect
 export const fadeInBlur = {
 	hidden: {

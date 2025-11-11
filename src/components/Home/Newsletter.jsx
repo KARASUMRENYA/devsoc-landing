@@ -22,7 +22,7 @@ export default function Newsletter({ showViewMoreButton = true }) {
 			</motion.h1>
 
 			<div className="mx-auto flex w-full max-w-6xl flex-col gap-8">
-				{newsletterItems.map((item, index) => (
+				{newsletterItems.slice(0, 3).map((item, index) => (
 					<NewsletterCard key={index} item={item} index={index} />
 				))}
 			</div>

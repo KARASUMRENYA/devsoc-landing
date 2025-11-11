@@ -73,7 +73,7 @@ export default function Events() {
 					initial="hidden"
 					whileInView="visible"
 					viewport={{ once: true }}
-					className="font-iceland mx-auto md:mb-12 w-full max-w-6xl px-4 text-6xl font-bold"
+					className="font-iceland mx-auto w-full max-w-6xl px-4 text-6xl font-bold md:mb-12"
 				>
 					Events
 				</motion.h2>
@@ -215,7 +215,8 @@ function AppleCardsCarouselSection() {
 		<Link href="/events" key="view-more">
 			<motion.div
 				initial={{ opacity: 0, y: 20 }}
-				animate={{ opacity: 1, y: 0 }}
+				whileInView={{ opacity: 1, y: 0 }}
+				viewport={{ once: true }}
 				transition={{ duration: 0.5, delay: 0.6, ease: "easeOut" }}
 				className="relative flex h-110 w-75 cursor-pointer items-center justify-center overflow-hidden rounded-3xl bg-neutral-900 shadow-[2px_2px_5px_rgba(0,0,0,0.2),-2px_2px_5px_rgba(0,0,0,0.2),0_4px_5px_rgba(0,0,0,0.2)] md:h-160 md:w-96"
 				whileHover={{ scale: 1.05 }}

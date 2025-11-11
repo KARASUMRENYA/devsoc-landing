@@ -32,7 +32,35 @@ export const newsletterItems = [
 		image:
 			"https://ik.imagekit.io/kenma/devsoc/demo2.png?updatedAt=1762520903089",
 		date: "June 2025",
-		slug: "director-roles-june-2025",
+		slug: "director-roles-2025",
+		images: [
+			"https://ik.imagekit.io/kenma/devsoc/demo2.png?updatedAt=1762520903089",
+			"https://ik.imagekit.io/kenma/devsoc/demo3.png?updatedAt=1762520903280",
+			"https://ik.imagekit.io/kenma/devsoc/demo1.png?updatedAt=1762520902924",
+		],
+	},
+	{
+		title:
+			"Director level roles ke liye applications khuli hain (for 2025) — “DevSoc Director”",
+		author: "DevSoc Team",
+		image:
+			"https://ik.imagekit.io/kenma/devsoc/demo4.png?updatedAt=1762520903161",
+		date: "April 2025",
+		slug: "roles-2025",
+		images: [
+			"https://ik.imagekit.io/kenma/devsoc/demo2.png?updatedAt=1762520903089",
+			"https://ik.imagekit.io/kenma/devsoc/demo3.png?updatedAt=1762520903280",
+			"https://ik.imagekit.io/kenma/devsoc/demo1.png?updatedAt=1762520902924",
+		],
+	},
+	{
+		title:
+			"Director level roles ke liye applications khuli hain (for 2025) — “DevSoc Director”",
+		author: "DevSoc Team",
+		image:
+			"https://ik.imagekit.io/kenma/devsoc/demo5.png?updatedAt=1762520903282",
+		date: "January 2025",
+		slug: "director-june-2025",
 		images: [
 			"https://ik.imagekit.io/kenma/devsoc/demo2.png?updatedAt=1762520903089",
 			"https://ik.imagekit.io/kenma/devsoc/demo3.png?updatedAt=1762520903280",
