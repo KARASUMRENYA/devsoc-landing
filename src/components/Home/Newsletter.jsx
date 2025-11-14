@@ -9,6 +9,18 @@ import NewsletterCard from "@/components/Newsletter/NewsletterCard";
 import { fadeInBlur, fadeInBlurFast } from "@/lib/motionVariants";
 
 export default function Newsletter({ showViewMoreButton = true }) {
+	// Sort newsletters by date in descending order (latest first)
+	const sortedNewsletters = [...newsletterItems].sort((a, b) => {
+		return b.date.localeCompare(a.date);
+	});
+
+	// Format date from YYYY-MM to "Month Year"
+	const formatDate = (dateStr) => {
+		const [year, month] = dateStr.split("-");
+		const date = new Date(year, month - 1);
+		return date.toLocaleDateString("en-US", { month: "long", year: "numeric" });
+	};
+
 	return (
 		<div className="z-2 flex w-full flex-col items-start justify-center gap-8 bg-black p-4 pt-12 pb-16 text-white sm:pb-24">
 			<motion.h1
@@ -22,8 +34,12 @@ export default function Newsletter({ showViewMoreButton = true }) {
 			</motion.h1>
 
 			<div className="mx-auto flex w-full max-w-6xl flex-col gap-8">
-				{newsletterItems.slice(0, 3).map((item, index) => (
-					<NewsletterCard key={index} item={item} index={index} />
+				{sortedNewsletters.slice(0, 3).map((item, index) => (
+					<NewsletterCard
+						key={index}
+						item={{ ...item, date: formatDate(item.date) }}
+						index={index}
+					/>
 				))}
 			</div>
 

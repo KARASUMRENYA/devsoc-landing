@@ -1,4 +1,4 @@
-// Common fade in with blur effect
+	// Common fade in with blur effect
 export const fadeInBlur = {
 	hidden: {
 		opacity: 0,
@@ -78,7 +78,7 @@ export const hoverScale = {
 	hover: {
 		scale: 1.01,
 		backgroundColor: "rgba(38, 38, 38, 1)",
-		transition: { duration: 0.3 },
+		transition: { duration: 0.2 },
 	},
 };
 

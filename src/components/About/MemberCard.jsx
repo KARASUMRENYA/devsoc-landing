@@ -15,7 +15,7 @@ export default function MemberCard({ member, index }) {
 			transition={{ delay: index * 0.05 }}
 		>
 			<Link href={member.link} className="group block">
-				<div className="relative overflow-hidden rounded-2xl bg-neutral-800 p-4 transition-all duration-300 hover:scale-105 hover:bg-neutral-700">
+				<div className="relative overflow-hidden rounded-2xl bg-neutral-800/90 p-4 transition-all duration-300 hover:scale-101 hover:bg-neutral-700/80">
 					<div className="relative mb-3 aspect-square overflow-hidden rounded-xl bg-neutral-900">
 						<Image
 							src={member.image}

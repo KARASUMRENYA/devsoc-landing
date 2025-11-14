@@ -3,27 +3,48 @@
 import { useState, useEffect } from "react";
 import { motion } from "motion/react";
 import Link from "next/link";
-import { Twitter, Instagram, Linkedin } from "lucide-react";
+import { Twitter, Instagram, Linkedin, Globe } from "lucide-react";
+
+const socialLinks = [
+	{
+		name: "Instagram",
+		url: "https://www.instagram.com",
+		icon: <Instagram size={20} />,
+	},
+	{
+		name: "LinkedIn",
+		url: "https://www.linkedin.com",
+		icon: <Linkedin size={20} />,
+	},
+	{
+		name: "Twitter",
+		url: "https://www.twitter.com",
+		icon: <Twitter size={20} />,
+	},
+];
+
+const devLinks = [
+	{
+		name: "Princi",
+		link: "https://www.linkedin.com/in/princi-kumari-a6422b326",
+		type: "linkedin",
+		icon: <Linkedin size={16} />,
+	},
+	{
+		name: "Prasoon",
+		link: "https://prasoonk.vercel.app",
+		type: "website",
+		icon: <Globe size={16} />,
+	},
+	{
+		name: "Prantor",
+		link: "https://x.com/das_prantor",
+		type: "twitter",
+		icon: <Twitter size={16} />,
+	},
+];
 
 const Footer = () => {
-	const socialLinks = [
-		{
-			name: "Instagram",
-			url: "https://www.instagram.com",
-			icon: <Instagram size={20} />,
-		},
-		{
-			name: "LinkedIn",
-			url: "https://www.linkedin.com",
-			icon: <Linkedin size={20} />,
-		},
-		{
-			name: "Twitter",
-			url: "https://www.twitter.com",
-			icon: <Twitter size={20} />,
-		},
-	];
-
 	const [mousePos, setMousePos] = useState({ x: -9999, y: -9999 });
 	const [showBlobs, setShowBlobs] = useState(false);
 	const [isMobile, setIsMobile] = useState(false);
@@ -111,7 +132,7 @@ const Footer = () => {
 
 	return (
 		<motion.div
-			className="relative w-full overflow-hidden rounded-t-3xl border-t border-white/30 bg-black p-4 pt-8 text-white shadow-[2px_-2px_4px_rgba(0,0,0,0.5)_inset,-2px_-2px_4px_rgba(0,0,0,0.5)_inset,0_2px_8px_rgba(255,255,255,0.3)_inset] sm:pt-10"
+			className="relative w-full overflow-hidden rounded-t-3xl border-t border-white/30 bg-black p-4 pt-12 text-white shadow-[2px_-2px_4px_rgba(0,0,0,0.5)_inset,-2px_-2px_4px_rgba(0,0,0,0.5)_inset,0_2px_8px_rgba(255,255,255,0.3)_inset] sm:pt-10 "
 			onMouseMove={handleMouseMove}
 			onMouseLeave={() => setShowBlobs(false)}
 		>
@@ -152,7 +173,14 @@ const Footer = () => {
 					whileInView="visible"
 					viewport={{ once: true }}
 				>
-					Made with ❤️ by Devsoc Team
+					Made with ❤️ by{" "}
+					{devLinks.map((dev, index) => (
+						<span key={dev.name}>
+							<DevLink dev={dev} />
+							{index === 0 && ", "}
+							{index === 1 && " & "}
+						</span>
+					))}
 				</motion.div>
 
 				<motion.div
@@ -210,3 +238,49 @@ const Footer = () => {
 };
 
 export default Footer;
+
+const DevLink = ({ dev }) => {
+	const [showTooltip, setShowTooltip] = useState(false);
+	const [isMobile, setIsMobile] = useState(false);
+
+	useEffect(() => {
+		const checkMobile = () => {
+			setIsMobile(window.innerWidth < 640);
+		};
+		checkMobile();
+		window.addEventListener("resize", checkMobile);
+		return () => window.removeEventListener("resize", checkMobile);
+	}, []);
+
+	const handleTooltipClick = () => {
+		if (isMobile) {
+			window.open(dev.link, "_blank", "noopener,noreferrer");
+		}
+	};
+
+	return (
+		<span className="relative inline-block">
+			<Link
+				href={dev.link}
+				target="_blank"
+				rel="noopener noreferrer"
+				onMouseEnter={() => setShowTooltip(true)}
+				onMouseLeave={() => setShowTooltip(false)}
+				className="hover:text-accent transition-colors duration-200"
+			>
+				{dev.name}
+			</Link>
+			{(showTooltip || isMobile) && (
+				<motion.div
+					initial={{ opacity: 0, y: 5 }}
+					animate={{ opacity: 1, y: 0 }}
+					onClick={handleTooltipClick}
+					className={`absolute -top-8 left-1/2 z-50 -translate-x-1/2 rounded-lg border border-neutral-700 bg-neutral-800 px-2 py-1 shadow-lg ${isMobile ? "cursor-pointer" : ""}`}
+				>
+					<div className="flex items-center gap-1 text-white">{dev.icon}</div>
+					<div className="absolute -bottom-1 left-1/2 h-2 w-2 -translate-x-1/2 rotate-45 border-r border-b border-neutral-700 bg-neutral-800"></div>
+				</motion.div>
+			)}
+		</span>
+	);
+};
