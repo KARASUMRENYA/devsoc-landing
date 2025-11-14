@@ -132,7 +132,7 @@ const Footer = () => {
 
 	return (
 		<motion.div
-			className="relative w-full overflow-hidden rounded-t-3xl border-t border-white/30 bg-black p-4 pt-12 text-white shadow-[2px_-2px_4px_rgba(0,0,0,0.5)_inset,-2px_-2px_4px_rgba(0,0,0,0.5)_inset,0_2px_8px_rgba(255,255,255,0.3)_inset] sm:pt-10 "
+			className="relative w-full overflow-hidden rounded-t-3xl border-t border-white/30 bg-black p-4 pt-12 text-white shadow-[2px_-2px_4px_rgba(0,0,0,0.5)_inset,-2px_-2px_4px_rgba(0,0,0,0.5)_inset,0_2px_8px_rgba(255,255,255,0.3)_inset] sm:pt-10"
 			onMouseMove={handleMouseMove}
 			onMouseLeave={() => setShowBlobs(false)}
 		>

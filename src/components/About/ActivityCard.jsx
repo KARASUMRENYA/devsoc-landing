@@ -11,7 +11,7 @@ export default function ActivityCard({ activity, index }) {
 			key={index}
 			variants={fadeInBlur}
 			whileHover={{ scale: 1.05, y: -5, transition: { duration: 0.2 } }}
-			className="group rounded-2xl bg-neutral-900 p-6 text-center transition-all duration-200 hover:bg-neutral-800/80 "
+			className="group rounded-2xl bg-neutral-900 p-6 text-center transition-all duration-200 hover:bg-neutral-800/80"
 		>
 			<div className="mb-4 flex justify-center">
 				<motion.div className="bg-accent/40 group-hover:bg-accent/70 rounded-full p-4">

@@ -1,4 +1,4 @@
-	// Common fade in with blur effect
+// Common fade in with blur effect
 export const fadeInBlur = {
 	hidden: {
 		opacity: 0,

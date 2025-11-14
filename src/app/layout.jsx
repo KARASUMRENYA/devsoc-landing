@@ -9,6 +9,7 @@ import Header from "@/components/UI/Header";
 import Footer from "@/components/UI/Footer";
 import SmoothScroll from "@/components/UI/SmoothScroll";
 import { ConvexProvider } from "@/providers/ConvexProvider";
+import { Analytics } from "@vercel/analytics/next";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -59,6 +60,7 @@ export default function RootLayout({ children }) {
 					<Header />
 					{children}
 					<Footer />
+					<Analytics />
 				</ConvexProvider>
 			</body>
 		</html>
