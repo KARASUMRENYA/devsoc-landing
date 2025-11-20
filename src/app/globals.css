@@ -1,0 +1,71 @@
+@import "tailwindcss";
+
+@import "lenis/dist/lenis.css";
+
+:root {
+	--background: #000000;
+	--foreground: #171717;
+	--color-accent: #ffbe7a;
+}
+
+@theme inline {
+	--color-background: var(--background);
+	--color-foreground: var(--foreground);
+	--font-sans: var(--font-geist-sans);
+	--font-mono: var(--font-geist-mono);
+	--color-accent: var(--color-accent);
+	--font-bg: var(--font-bg);
+	--font-iceland: var(--font-iceland);
+}
+
+body {
+	background: var(--background);
+	color: var(--foreground);
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Loading screen animations */
+@keyframes spin-slow {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes pulse-ring {
+	0%,
+	100% {
+		transform: scale(1);
+		opacity: 0.5;
+	}
+	50% {
+		transform: scale(1.1);
+		opacity: 0.3;
+	}
+}
+
+@keyframes pulse-ring-delayed {
+	0%,
+	100% {
+		transform: scale(1);
+		opacity: 0.3;
+	}
+	50% {
+		transform: scale(1.15);
+		opacity: 0.1;
+	}
+}
+
+.animate-spin-slow {
+	animation: spin-slow 3s linear infinite;
+}
+
+.animate-pulse-ring {
+	animation: pulse-ring 2s ease-in-out infinite;
+}
+
+.animate-pulse-ring-delayed {
+	animation: pulse-ring-delayed 2s ease-in-out 0.5s infinite;
+}
